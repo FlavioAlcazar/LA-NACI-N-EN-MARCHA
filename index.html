@@ -1,207 +1,470 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Proyecto Editorial</title>
+    <title>La Nación en Marcha</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
 
-        body {
-            margin: 0;
-            background: #f5f3ee;
-            color: #171717;
-            font-family: Georgia, "Times New Roman", serif;
+        html {
+            scroll-behavior: smooth;
         }
 
+        body {
+            margin: 0;
+            background: #dededb;
+            color: #111;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* CABECERA */
+
         header {
-            border-bottom: 1px solid #171717;
+            background: #111;
+            color: #eee;
             padding: 25px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 8px solid #999;
         }
 
         .logo {
-            font-size: 28px;
-            font-weight: bold;
-            letter-spacing: -1px;
+            font-size: clamp(22px, 4vw, 42px);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            line-height: .9;
+        }
+
+        nav {
+            display: flex;
+            gap: 25px;
         }
 
         nav a {
-            color: #171717;
+            color: #eee;
             text-decoration: none;
-            margin-left: 25px;
-            font-family: Arial, sans-serif;
-            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
         }
 
+        nav a:hover {
+            color: #aaa;
+        }
+
+        /* PORTADA */
+
+        .hero {
+            min-height: 70vh;
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            border-bottom: 8px solid #111;
+        }
+
+        .hero-title {
+            background: #bdbdbb;
+            padding: 8%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-kicker {
+            font-size: 13px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-size: clamp(55px, 9vw, 125px);
+            line-height: .82;
+            letter-spacing: -7px;
+            text-transform: uppercase;
+            font-weight: 900;
+        }
+
+        .hero-description {
+            max-width: 600px;
+            font-family: Georgia, serif;
+            font-size: 21px;
+            line-height: 1.4;
+            margin-top: 40px;
+        }
+
+        .hero-block {
+            background: #222;
+            color: #eee;
+            padding: 8%;
+            display: flex;
+            align-items: flex-end;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-block::before {
+            content: "";
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border: 60px solid #777;
+            transform: rotate(45deg);
+            top: -200px;
+            right: -200px;
+        }
+
+        .hero-block-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-block h2 {
+            font-size: 45px;
+            line-height: .95;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        /* CONTENIDO */
+
         main {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
+        }
+
+        .section {
             padding: 70px 5%;
         }
 
-        .intro {
-            max-width: 800px;
-            margin-bottom: 80px;
+        .section-header {
+            border-top: 5px solid #111;
+            padding-top: 12px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
         }
 
-        .intro h1 {
-            font-size: clamp(48px, 8vw, 100px);
-            line-height: 0.95;
-            letter-spacing: -5px;
-            margin: 0 0 30px;
-        }
-
-        .intro p {
-            font-size: 21px;
-            line-height: 1.5;
-            max-width: 650px;
-        }
-
-        .section-title {
-            border-top: 2px solid #171717;
-            padding-top: 15px;
-            font-family: Arial, sans-serif;
-            font-size: 13px;
+        .section-header h2 {
+            margin: 0;
+            font-size: 18px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 30px;
+            letter-spacing: 2px;
         }
+
+        .section-header span {
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        /* ARTÍCULOS */
 
         .articles {
             display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 40px;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 30px;
         }
 
         article {
-            border-top: 1px solid #999;
-            padding-top: 18px;
+            border-top: 2px solid #111;
+            padding-top: 15px;
         }
 
-        article h2 {
-            font-size: 34px;
-            line-height: 1.05;
-            margin: 10px 0;
-        }
-
-        article p {
-            font-size: 17px;
-            line-height: 1.5;
-            color: #444;
+        article.featured {
+            grid-row: span 2;
         }
 
         .category {
-            font-family: Arial, sans-serif;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        article h3 {
+            font-family: Georgia, serif;
+            font-size: 28px;
+            line-height: 1;
+            margin: 12px 0;
+        }
+
+        article.featured h3 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 50px;
+            line-height: .92;
+            text-transform: uppercase;
+            letter-spacing: -3px;
+        }
+
+        article p {
+            font-family: Georgia, serif;
+            font-size: 17px;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .date {
             font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            margin-top: 25px;
         }
+
+        /* FRASE */
+
+        .manifesto {
+            background: #111;
+            color: #eee;
+            padding: 80px 8%;
+            margin-top: 30px;
+        }
+
+        .manifesto p {
+            max-width: 1000px;
+            margin: 0;
+            font-size: clamp(32px, 5vw, 70px);
+            font-weight: 900;
+            line-height: .95;
+            letter-spacing: -3px;
+            text-transform: uppercase;
+        }
+
+        /* FOOTER */
 
         footer {
-            margin-top: 100px;
-            border-top: 1px solid #171717;
-            padding: 30px 5%;
-            font-family: Arial, sans-serif;
-            font-size: 13px;
+            background: #111;
+            color: #aaa;
+            padding: 35px 5%;
+            margin-top: 50px;
+            font-size: 11px;
+            text-transform: uppercase;
         }
 
-        @media (max-width: 700px) {
+        /* MÓVIL */
+
+        @media (max-width: 800px) {
+
             header {
+                flex-direction: column;
                 align-items: flex-start;
-                gap: 20px;
+                gap: 25px;
             }
 
-            nav a {
-                margin-left: 10px;
+            nav {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                min-height: 65vh;
+            }
+
+            .hero-block {
+                min-height: 300px;
             }
 
             .articles {
                 grid-template-columns: 1fr;
             }
 
-            .intro h1 {
-                letter-spacing: -3px;
+            article.featured {
+                grid-row: auto;
             }
+
+            article.featured h3 {
+                font-size: 40px;
+            }
+
         }
+
     </style>
 </head>
+
 
 <body>
 
 <header>
-    <div class="logo">PROYECTO</div>
+
+    <div class="logo">
+        La Nación<br>en Marcha
+    </div>
 
     <nav>
         <a href="#">Artículos</a>
         <a href="#">Ensayos</a>
-        <a href="#">Sobre nosotros</a>
+        <a href="#">Temas</a>
+        <a href="#">El proyecto</a>
     </nav>
+
 </header>
+
 
 <main>
 
-    <section class="intro">
-        <h1>Ideas para<br>comprender<br>el presente.</h1>
+    <section class="hero">
+
+        <div class="hero-title">
+
+            <div class="hero-kicker">
+                Publicación política
+            </div>
+
+            <h1>
+                La<br>
+                Nación<br>
+                en<br>
+                Marcha
+            </h1>
+
+            <div class="hero-description">
+                Artículos, ensayos y análisis sobre política,
+                sociedad, cultura e historia.
+            </div>
+
+        </div>
+
+
+        <div class="hero-block">
+
+            <div class="hero-block-text">
+
+                <h2>
+                    Pensar<br>
+                    el presente.<br>
+                    Transformar<br>
+                    el futuro.
+                </h2>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <h2>
+                Últimos textos
+            </h2>
+
+            <span>
+                Archivo / 2026
+            </span>
+
+        </div>
+
+
+        <div class="articles">
+
+
+            <article class="featured">
+
+                <div class="category">
+                    Ensayo
+                </div>
+
+                <h3>
+                    El título de nuestro primer gran ensayo
+                </h3>
+
+                <p>
+                    Aquí aparecerá la entradilla del artículo.
+                    Un texto breve que presente al lector el
+                    argumento principal del ensayo.
+                </p>
+
+                <div class="date">
+                    Nombre del autor · 17 agosto 2026
+                </div>
+
+            </article>
+
+
+            <article>
+
+                <div class="category">
+                    Política
+                </div>
+
+                <h3>
+                    Un segundo artículo
+                </h3>
+
+                <p>
+                    Una breve descripción del texto publicado.
+                </p>
+
+                <div class="date">
+                    Nombre del autor · 15 agosto 2026
+                </div>
+
+            </article>
+
+
+            <article>
+
+                <div class="category">
+                    Sociedad
+                </div>
+
+                <h3>
+                    Un tercer artículo
+                </h3>
+
+                <p>
+                    Una breve descripción del texto publicado.
+                </p>
+
+                <div class="date">
+                    Nombre del autor · 12 agosto 2026
+                </div>
+
+            </article>
+
+
+        </div>
+
+    </section>
+
+
+    <section class="manifesto">
 
         <p>
-            Un espacio para el análisis político, la reflexión
-            y el debate sobre nuestro tiempo.
+            Una publicación para pensar
+            colectivamente nuestro tiempo.
         </p>
-    </section>
-
-    <div class="section-title">
-        Últimos textos
-    </div>
-
-    <section class="articles">
-
-        <article>
-            <div class="category">Ensayo</div>
-
-            <h2>
-                El título de nuestro primer ensayo
-            </h2>
-
-            <p>
-                Una breve introducción al artículo. Aquí aparecerá
-                un resumen que invite al lector a continuar leyendo.
-            </p>
-
-            <small>
-                Nombre del autor · 17 agosto 2026
-            </small>
-        </article>
-
-        <article>
-            <div class="category">Política</div>
-
-            <h2>
-                Un segundo artículo
-            </h2>
-
-            <p>
-                Una breve descripción del texto publicado.
-            </p>
-
-            <small>
-                Nombre del autor · 15 agosto 2026
-            </small>
-        </article>
 
     </section>
+
 
 </main>
 
+
 <footer>
-    © 2026 Proyecto Editorial
+
+    La Nación en Marcha · Publicación política · 2026
+
 </footer>
 
+
 </body>
+
 </html>
