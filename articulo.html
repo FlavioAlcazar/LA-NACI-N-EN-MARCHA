@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>La Nación en Marcha — Artículo</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #dededb;
+            color: #111;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* CABECERA */
+
+        header {
+            background: #111;
+            color: #eee;
+            padding: 25px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 8px solid #999;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            line-height: .85;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        nav {
+            display: flex;
+            gap: 25px;
+        }
+
+        nav a {
+            color: #eee;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ARTÍCULO */
+
+        .article-header {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 90px 5% 60px;
+            border-bottom: 5px solid #111;
+        }
+
+        .category {
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            max-width: 1100px;
+            margin: 0;
+            font-size: clamp(50px, 8vw, 110px);
+            line-height: .86;
+            letter-spacing: -6px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            max-width: 750px;
+            margin-top: 35px;
+            font-family: Georgia, serif;
+            font-size: 24px;
+            line-height: 1.4;
+        }
+
+        .meta {
+            margin-top: 40px;
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        /* TEXTO */
+
+        .article-body {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 80px 5%;
+        }
+
+        .article-body p {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 20px;
+            line-height: 1.7;
+            margin: 0 0 30px;
+        }
+
+        .article-body h2 {
+            font-size: 36px;
+            line-height: 1;
+            text-transform: uppercase;
+            margin: 70px 0 25px;
+        }
+
+        .article-body blockquote {
+            border-left: 8px solid #111;
+            margin: 60px 0;
+            padding: 10px 30px;
+            font-size: 30px;
+            line-height: 1.15;
+            font-weight: bold;
+        }
+
+        /* AUTOR */
+
+        .author {
+            border-top: 3px solid #111;
+            margin-top: 80px;
+            padding-top: 25px;
+            font-size: 13px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: #111;
+            color: #aaa;
+            padding: 35px 5%;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 700px) {
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .article-header {
+                padding-top: 60px;
+            }
+
+            h1 {
+                letter-spacing: -3px;
+            }
+
+            .article-body p {
+                font-size: 18px;
+            }
+
+            .article-body blockquote {
+                font-size: 24px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        La Nación<br>
+        en Marcha
+    </div>
+
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="#">Artículos</a>
+        <a href="#">Ensayos</a>
+        <a href="#">Temas</a>
+    </nav>
+
+</header>
+
+
+<section class="article-header">
+
+    <div class="category">
+        Ensayo
+    </div>
+
+    <h1>
+        El título de nuestro primer gran ensayo
+    </h1>
+
+    <div class="subtitle">
+        Una introducción al ensayo que resume el problema
+        que queremos analizar y plantea las principales
+        preguntas del texto.
+    </div>
+
+    <div class="meta">
+        Nombre del autor · 17 agosto 2026
+    </div>
+
+</section>
+
+
+<main class="article-body">
+
+    <p>
+        Este es el comienzo del artículo. Aquí escribiremos
+        el contenido completo del texto. La tipografía está
+        pensada para que la lectura resulte cómoda incluso
+        cuando el artículo sea largo.
+    </p>
+
+    <p>
+        Podemos utilizar varios párrafos, citas, subtítulos
+        y diferentes elementos editoriales. La idea es que
+        los ensayos tengan una presentación mucho más cercana
+        a una publicación impresa que a un blog convencional.
+    </p>
+
+
+    <h2>
+        Primer apartado
+    </h2>
+
+    <p>
+        Aquí comenzaría el desarrollo de la argumentación.
+        Más adelante este contenido no tendremos que escribirlo
+        directamente dentro del código.
+    </p>
+
+
+    <blockquote>
+        Una cita importante puede aparecer aquí con una
+        composición diferente.
+    </blockquote>
+
+
+    <h2>
+        Segundo apartado
+    </h2>
+
+    <p>
+        Continuamos desarrollando el argumento del artículo.
+        Esta estructura nos permitirá publicar textos largos
+        sin que la página resulte difícil de leer.
+    </p>
+
+    <p>
+        Cuando conectemos el sistema editorial, todo este
+        contenido será generado automáticamente a partir
+        de lo que escribas desde el panel de administración.
+    </p>
+
+
+    <div class="author">
+        Escrito por Nombre del autor
+    </div>
+
+</main>
+
+
+<footer>
+
+    La Nación en Marcha · 2026
+
+</footer>
+
+
+</body>
+
+</html>
