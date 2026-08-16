@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ensayos — La Nación en Marcha</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #dededb;
+            color: #111;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        header {
+            background: #111;
+            color: #eee;
+            padding: 25px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 8px solid #999;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            line-height: .85;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        nav {
+            display: flex;
+            gap: 25px;
+        }
+
+        nav a {
+            color: #eee;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        nav a:hover {
+            color: #aaa;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 5%;
+        }
+
+        .page-title {
+            border-bottom: 8px solid #111;
+            padding-bottom: 30px;
+            margin-bottom: 60px;
+        }
+
+        .page-title h1 {
+            margin: 0;
+            font-size: clamp(60px, 10vw, 130px);
+            line-height: .8;
+            letter-spacing: -7px;
+            text-transform: uppercase;
+        }
+
+        .essay {
+            border-top: 3px solid #111;
+            padding: 35px 0 50px;
+        }
+
+        .essay-label {
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .essay h2 {
+            max-width: 1000px;
+            margin: 0 0 20px;
+            font-size: clamp(38px, 6vw, 70px);
+            line-height: .9;
+            letter-spacing: -3px;
+            text-transform: uppercase;
+        }
+
+        .essay h2 a {
+            color: #111;
+            text-decoration: none;
+        }
+
+        .essay h2 a:hover {
+            text-decoration: underline;
+        }
+
+        .description {
+            max-width: 750px;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 19px;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .meta {
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .pdf {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 18px;
+            background: #111;
+            color: #eee;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pdf:hover {
+            background: #555;
+        }
+
+        footer {
+            background: #111;
+            color: #aaa;
+            padding: 35px 5%;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 700px) {
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .essay h2 {
+                letter-spacing: -2px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        La Nación<br>
+        en Marcha
+    </div>
+
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="articulos.html">Artículos</a>
+        <a href="ensayos.html">Ensayos</a>
+        <a href="#">Temas</a>
+        <a href="#">Proyecto</a>
+        <a href="#">Contacto</a>
+    </nav>
+
+</header>
+
+
+<main>
+
+
+    <div class="page-title">
+
+        <h1>
+            Ensayos
+        </h1>
+
+    </div>
+
+
+    <article class="essay">
+
+        <div class="essay-label">
+            Ensayo · 2026
+        </div>
+
+        <h2>
+            <a href="articulo.html">
+                El título de nuestro primer ensayo
+            </a>
+        </h2>
+
+        <div class="description">
+
+            Una introducción al ensayo. Aquí podremos explicar
+            brevemente el contenido y las cuestiones principales
+            que aborda la publicación.
+
+        </div>
+
+        <div class="meta">
+
+            Nombre del autor · 17 agosto 2026
+
+        </div>
+
+        <a class="pdf" href="#">
+            Abrir PDF
+        </a>
+
+    </article>
+
+
+    <article class="essay">
+
+        <div class="essay-label">
+            Ensayo · Próximamente
+        </div>
+
+        <h2>
+            <a href="#">
+                Segundo ensayo
+            </a>
+        </h2>
+
+        <div class="description">
+
+            Aquí aparecerá la descripción de una futura
+            publicación.
+
+        </div>
+
+        <div class="meta">
+
+            La Nación en Marcha
+
+        </div>
+
+    </article>
+
+
+</main>
+
+
+<footer>
+
+    La Nación en Marcha · 2026
+
+</footer>
+
+
+</body>
+
+</html>
