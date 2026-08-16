@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Proyecto Editorial</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f3ee;
+            color: #171717;
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        header {
+            border-bottom: 1px solid #171717;
+            padding: 25px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: -1px;
+        }
+
+        nav a {
+            color: #171717;
+            text-decoration: none;
+            margin-left: 25px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 70px 5%;
+        }
+
+        .intro {
+            max-width: 800px;
+            margin-bottom: 80px;
+        }
+
+        .intro h1 {
+            font-size: clamp(48px, 8vw, 100px);
+            line-height: 0.95;
+            letter-spacing: -5px;
+            margin: 0 0 30px;
+        }
+
+        .intro p {
+            font-size: 21px;
+            line-height: 1.5;
+            max-width: 650px;
+        }
+
+        .section-title {
+            border-top: 2px solid #171717;
+            padding-top: 15px;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+        }
+
+        .articles {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+        }
+
+        article {
+            border-top: 1px solid #999;
+            padding-top: 18px;
+        }
+
+        article h2 {
+            font-size: 34px;
+            line-height: 1.05;
+            margin: 10px 0;
+        }
+
+        article p {
+            font-size: 17px;
+            line-height: 1.5;
+            color: #444;
+        }
+
+        .category {
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        footer {
+            margin-top: 100px;
+            border-top: 1px solid #171717;
+            padding: 30px 5%;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+        }
+
+        @media (max-width: 700px) {
+            header {
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            nav a {
+                margin-left: 10px;
+            }
+
+            .articles {
+                grid-template-columns: 1fr;
+            }
+
+            .intro h1 {
+                letter-spacing: -3px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">PROYECTO</div>
+
+    <nav>
+        <a href="#">Artículos</a>
+        <a href="#">Ensayos</a>
+        <a href="#">Sobre nosotros</a>
+    </nav>
+</header>
+
+<main>
+
+    <section class="intro">
+        <h1>Ideas para<br>comprender<br>el presente.</h1>
+
+        <p>
+            Un espacio para el análisis político, la reflexión
+            y el debate sobre nuestro tiempo.
+        </p>
+    </section>
+
+    <div class="section-title">
+        Últimos textos
+    </div>
+
+    <section class="articles">
+
+        <article>
+            <div class="category">Ensayo</div>
+
+            <h2>
+                El título de nuestro primer ensayo
+            </h2>
+
+            <p>
+                Una breve introducción al artículo. Aquí aparecerá
+                un resumen que invite al lector a continuar leyendo.
+            </p>
+
+            <small>
+                Nombre del autor · 17 agosto 2026
+            </small>
+        </article>
+
+        <article>
+            <div class="category">Política</div>
+
+            <h2>
+                Un segundo artículo
+            </h2>
+
+            <p>
+                Una breve descripción del texto publicado.
+            </p>
+
+            <small>
+                Nombre del autor · 15 agosto 2026
+            </small>
+        </article>
+
+    </section>
+
+</main>
+
+<footer>
+    © 2026 Proyecto Editorial
+</footer>
+
+</body>
+</html>
