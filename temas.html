@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Temas — La Nación en Marcha</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #dededb;
+            color: #111;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        header {
+            background: #111;
+            color: #eee;
+            padding: 25px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 8px solid #999;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            line-height: .85;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        nav {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #eee;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 5%;
+        }
+
+        .page-title {
+            border-bottom: 8px solid #111;
+            padding-bottom: 30px;
+            margin-bottom: 60px;
+        }
+
+        .page-title h1 {
+            margin: 0;
+            font-size: clamp(60px, 10vw, 130px);
+            line-height: .8;
+            letter-spacing: -7px;
+            text-transform: uppercase;
+        }
+
+        .intro {
+            max-width: 700px;
+            font-family: Georgia, serif;
+            font-size: 22px;
+            line-height: 1.5;
+            margin-bottom: 70px;
+        }
+
+        .topics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .topic {
+            border-top: 4px solid #111;
+            padding: 25px 0 35px;
+        }
+
+        .topic h2 {
+            margin: 0 0 10px;
+            font-size: 38px;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+        }
+
+        .topic p {
+            margin: 0;
+            font-family: Georgia, serif;
+            font-size: 17px;
+            line-height: 1.5;
+            color: #444;
+        }
+
+        footer {
+            background: #111;
+            color: #aaa;
+            padding: 35px 5%;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 700px) {
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            .topics {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        La Nación<br>
+        en Marcha
+    </div>
+
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="articulos.html">Artículos</a>
+        <a href="ensayos.html">Ensayos</a>
+        <a href="temas.html">Temas</a>
+        <a href="#">Proyecto</a>
+        <a href="#">Contacto</a>
+    </nav>
+
+</header>
+
+
+<main>
+
+    <div class="page-title">
+
+        <h1>
+            Temas
+        </h1>
+
+    </div>
+
+
+    <div class="intro">
+
+        Una forma de recorrer nuestras publicaciones
+        a través de las cuestiones que atraviesan
+        nuestro tiempo.
+
+    </div>
+
+
+    <section class="topics">
+
+
+        <article class="topic">
+
+            <h2>
+                Próximamente
+            </h2>
+
+            <p>
+                Aquí aparecerán los temas que vayamos
+                desarrollando a través de artículos y ensayos.
+            </p>
+
+        </article>
+
+
+        <article class="topic">
+
+            <h2>
+                Archivo
+            </h2>
+
+            <p>
+                Esta sección irá creciendo a medida que
+                publiquemos nuevos contenidos.
+            </p>
+
+        </article>
+
+
+    </section>
+
+
+</main>
+
+
+<footer>
+
+    La Nación en Marcha · 2026
+
+</footer>
+
+
+</body>
+
+</html>
