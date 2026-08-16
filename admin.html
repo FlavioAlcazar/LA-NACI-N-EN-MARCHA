@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Administración — La Nación en Marcha</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #cfcfcb;
+            color: #111;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        header {
+            background: #111;
+            color: #eee;
+            padding: 25px 5%;
+            border-bottom: 8px solid #777;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            line-height: .85;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 5%;
+        }
+
+        .title {
+            border-bottom: 8px solid #111;
+            padding-bottom: 25px;
+            margin-bottom: 50px;
+        }
+
+        .title h1 {
+            margin: 0;
+            font-size: clamp(55px, 9vw, 100px);
+            line-height: .8;
+            letter-spacing: -6px;
+            text-transform: uppercase;
+        }
+
+        .form-row {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            border: 2px solid #111;
+            background: #eee;
+            padding: 15px;
+            color: #111;
+            font-family: inherit;
+            font-size: 16px;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: 4px solid #999;
+        }
+
+        textarea {
+            min-height: 350px;
+            resize: vertical;
+            font-family: Georgia, "Times New Roman", serif;
+            line-height: 1.6;
+        }
+
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .file-box {
+            border: 2px dashed #111;
+            padding: 25px;
+            background: #ddd;
+        }
+
+        button {
+            margin-top: 20px;
+            background: #111;
+            color: #eee;
+            border: 0;
+            padding: 18px 30px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #444;
+        }
+
+        .notice {
+            display: none;
+            margin-top: 25px;
+            border: 3px solid #111;
+            padding: 20px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 700px) {
+
+            .two-columns {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        La Nación<br>
+        en Marcha
+    </div>
+
+</header>
+
+
+<main>
+
+
+    <div class="title">
+
+        <h1>
+            Publicar
+        </h1>
+
+    </div>
+
+
+    <form id="publishForm">
+
+
+        <div class="form-row">
+
+            <label for="title">
+                Título
+            </label>
+
+            <input
+                type="text"
+                id="title"
+                placeholder="Título de la publicación"
+                required
+            >
+
+        </div>
+
+
+        <div class="two-columns">
+
+
+            <div class="form-row">
+
+                <label for="author">
+                    Autor
+                </label>
+
+                <input
+                    type="text"
+                    id="author"
+                    placeholder="Nombre del autor"
+                >
+
+            </div>
+
+
+            <div class="form-row">
+
+                <label for="type">
+                    Tipo de publicación
+                </label>
+
+                <select id="type">
+
+                    <option value="articulo">
+                        Artículo
+                    </option>
+
+                    <option value="ensayo">
+                        Ensayo
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="form-row">
+
+            <label for="date">
+                Fecha
+            </label>
+
+            <input
+                type="date"
+                id="date"
+            >
+
+        </div>
+
+
+        <div class="form-row">
+
+            <label for="description">
+                Introducción / descripción
+            </label>
+
+            <textarea
+                id="description"
+                placeholder="Escribe aquí una breve descripción..."
+            ></textarea>
+
+        </div>
+
+
+        <div class="form-row">
+
+            <label for="content">
+                Contenido
+            </label>
+
+            <textarea
+                id="content"
+                placeholder="Escribe aquí el contenido..."
+            ></textarea>
+
+        </div>
+
+
+        <div class="form-row">
+
+            <label>
+                PDF
+            </label>
+
+            <div class="file-box">
+
+                <input
+                    type="file"
+                    id="pdf"
+                    accept=".pdf"
+                >
+
+            </div>
+
+        </div>
+
+
+        <button type="submit">
+            Publicar
+        </button>
+
+
+        <div class="notice" id="notice">
+
+            Publicación preparada correctamente.
+            Todavía estamos en modo de prueba:
+            este botón aún no publica nada en la web.
+
+        </div>
+
+
+    </form>
+
+
+</main>
+
+
+<script>
+
+    const form = document.getElementById("publishForm");
+
+    const notice = document.getElementById("notice");
+
+    form.addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        notice.style.display = "block";
+
+        notice.scrollIntoView({
+            behavior: "smooth"
+        });
+
+    });
+
+</script>
+
+
+</body>
+
+</html>
