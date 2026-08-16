@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Contacto — La Nación en Marcha</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #dededb;
+            color: #111;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        header {
+            background: #111;
+            color: #eee;
+            padding: 25px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 8px solid #999;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            line-height: .85;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        nav {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #eee;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        nav a:hover {
+            color: #aaa;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 5%;
+        }
+
+        .page-title {
+            border-bottom: 8px solid #111;
+            padding-bottom: 30px;
+            margin-bottom: 70px;
+        }
+
+        .page-title h1 {
+            margin: 0;
+            font-size: clamp(60px, 10vw, 130px);
+            line-height: .8;
+            letter-spacing: -7px;
+            text-transform: uppercase;
+        }
+
+        .contact-intro {
+            max-width: 800px;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 25px;
+            line-height: 1.5;
+            margin-bottom: 60px;
+        }
+
+        .contact-box {
+            border-top: 4px solid #111;
+            border-bottom: 4px solid #111;
+            padding: 40px 0;
+            max-width: 800px;
+        }
+
+        .contact-item {
+            margin-bottom: 35px;
+        }
+
+        .contact-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .label {
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .value {
+            font-family: Georgia, serif;
+            font-size: 24px;
+        }
+
+        .value a {
+            color: #111;
+            text-decoration: none;
+        }
+
+        .value a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background: #111;
+            color: #aaa;
+            padding: 35px 5%;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 700px) {
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            .contact-intro {
+                font-size: 21px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        La Nación<br>
+        en Marcha
+    </div>
+
+    <nav>
+
+        <a href="index.html">Inicio</a>
+
+        <a href="articulos.html">Artículos</a>
+
+        <a href="ensayos.html">Ensayos</a>
+
+        <a href="temas.html">Temas</a>
+
+        <a href="proyecto.html">Proyecto</a>
+
+        <a href="contacto.html">Contacto</a>
+
+    </nav>
+
+</header>
+
+
+<main>
+
+
+    <div class="page-title">
+
+        <h1>
+            Contacto
+        </h1>
+
+    </div>
+
+
+    <div class="contact-intro">
+
+        Para propuestas, colaboraciones, textos o cualquier
+        otra cuestión relacionada con el proyecto.
+
+    </div>
+
+
+    <div class="contact-box">
+
+
+        <div class="contact-item">
+
+            <div class="label">
+                Correo electrónico
+            </div>
+
+            <div class="value">
+
+                <a href="mailto:correo@ejemplo.com">
+                    correo@ejemplo.com
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="contact-item">
+
+            <div class="label">
+                Proyecto
+            </div>
+
+            <div class="value">
+                La Nación en Marcha
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+<footer>
+
+    La Nación en Marcha · 2026
+
+</footer>
+
+
+</body>
+
+</html>
