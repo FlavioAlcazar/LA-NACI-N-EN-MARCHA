@@ -53,6 +53,10 @@
             letter-spacing: 1px;
         }
 
+        nav a:hover {
+            text-decoration: underline;
+        }
+
         main {
             max-width: 1200px;
             margin: 0 auto;
@@ -118,6 +122,15 @@
             text-transform: uppercase;
         }
 
+        .loading,
+        .empty,
+        .error {
+            border-top: 2px solid #111;
+            padding: 30px 0;
+            font-family: Georgia, serif;
+            font-size: 20px;
+        }
+
         footer {
             background: #111;
             color: #aaa;
@@ -166,13 +179,13 @@
     </div>
 
     <nav>
-    <a href="index.html">Inicio</a>
-    <a href="articulos.html">Artículos</a>
-    <a href="ensayos.html">Ensayos</a>
-    <a href="#">Temas</a>
-    <a href="#">Proyecto</a>
-    <a href="#">Contacto</a>
-</nav>
+        <a href="index.html">Inicio</a>
+        <a href="articulos.html">Artículos</a>
+        <a href="ensayos.html">Ensayos</a>
+        <a href="temas.html">Temas</a>
+        <a href="proyecto.html">Proyecto</a>
+        <a href="contacto.html">Contacto</a>
+    </nav>
 
 </header>
 
@@ -188,98 +201,13 @@
     </div>
 
 
-    <article class="article">
+    <div id="articles">
 
-        <div class="category">
-    Política
-</div>
+        <div class="loading">
+            Cargando artículos...
+        </div>
 
-<div>
-
-    <h2>
-        <a href="#">
-            El título de nuestro primer artículo
-        </a>
-    </h2>
-
-    <p>
-        Una introducción al artículo que presenta
-        brevemente el asunto que queremos analizar.
-    </p>
-
-    <div class="meta">
-        Nombre del autor · 17 agosto 2026
     </div>
-
-</div>
-
-            <p>
-                Una introducción al ensayo que resume el problema
-                que queremos analizar y presenta sus principales
-                argumentos.
-            </p>
-
-            <div class="meta">
-                Nombre del autor · 17 agosto 2026
-            </div>
-
-        </div>
-
-    </article>
-
-
-    <article class="article">
-
-        <div class="category">
-            Política
-        </div>
-
-        <div>
-
-            <h2>
-                <a href="#">
-                    Un segundo artículo de prueba
-                </a>
-            </h2>
-
-            <p>
-                Una breve descripción del contenido del artículo.
-            </p>
-
-            <div class="meta">
-                Nombre del autor · 15 agosto 2026
-            </div>
-
-        </div>
-
-    </article>
-
-
-    <article class="article">
-
-        <div class="category">
-            Sociedad
-        </div>
-
-        <div>
-
-            <h2>
-                <a href="#">
-                    Un tercer artículo de prueba
-                </a>
-            </h2>
-
-            <p>
-                Una breve descripción del contenido del artículo.
-            </p>
-
-            <div class="meta">
-                Nombre del autor · 12 agosto 2026
-            </div>
-
-        </div>
-
-    </article>
 
 
 </main>
@@ -290,6 +218,187 @@
     La Nación en Marcha · 2026
 
 </footer>
+
+
+<script>
+
+async function cargarArticulos() {
+
+    const contenedor = document.getElementById("articles");
+
+    try {
+
+        const respuesta = await fetch(
+            "https://api.github.com/repos/FlavioAlcazar/LA-NACI-N-EN-MARCHA/contents/articulos"
+        );
+
+        if (!respuesta.ok) {
+            throw new Error("No se pudo acceder a la carpeta de artículos.");
+        }
+
+        const archivos = await respuesta.json();
+
+        const articulos = archivos
+            .filter(archivo =>
+                archivo.type === "file" &&
+                archivo.name.toLowerCase().endsWith(".html")
+            );
+
+        if (articulos.length === 0) {
+
+            contenedor.innerHTML = `
+                <div class="empty">
+                    Todavía no hay artículos publicados.
+                </div>
+            `;
+
+            return;
+        }
+
+        const datos = [];
+
+        for (const archivo of articulos) {
+
+            try {
+
+                const respuestaArticulo =
+                    await fetch(archivo.download_url);
+
+                if (!respuestaArticulo.ok) {
+                    continue;
+                }
+
+                const html =
+                    await respuestaArticulo.text();
+
+                const documento =
+                    new DOMParser().parseFromString(
+                        html,
+                        "text/html"
+                    );
+
+                const titulo =
+                    documento.querySelector("h1")?.textContent.trim()
+                    || archivo.name
+                        .replace(".html", "")
+                        .replace(/-/g, " ");
+
+                const meta =
+                    documento.querySelector(".meta")?.textContent.trim()
+                    || "";
+
+                const contenido =
+                    documento.querySelector(".content")?.textContent.trim()
+                    || "";
+
+                const descripcion =
+                    contenido.length > 220
+                        ? contenido.substring(0, 220) + "..."
+                        : contenido;
+
+                datos.push({
+                    archivo: archivo.name,
+                    titulo: titulo,
+                    meta: meta,
+                    descripcion: descripcion
+                });
+
+            } catch (error) {
+
+                console.error(
+                    "No se pudo leer:",
+                    archivo.name,
+                    error
+                );
+
+            }
+
+        }
+
+
+        if (datos.length === 0) {
+
+            contenedor.innerHTML = `
+                <div class="empty">
+                    Todavía no hay artículos publicados.
+                </div>
+            `;
+
+            return;
+        }
+
+
+        contenedor.innerHTML = "";
+
+
+        datos.reverse().forEach(articulo => {
+
+            const elemento =
+                document.createElement("article");
+
+            elemento.className = "article";
+
+            elemento.innerHTML = `
+
+                <div class="category">
+                    Artículo
+                </div>
+
+                <div>
+
+                    <h2>
+                        <a href="articulos/${encodeURIComponent(articulo.archivo)}">
+                            ${escaparHTML(articulo.titulo)}
+                        </a>
+                    </h2>
+
+                    <p>
+                        ${escaparHTML(articulo.descripcion)}
+                    </p>
+
+                    <div class="meta">
+                        ${escaparHTML(articulo.meta)}
+                    </div>
+
+                </div>
+
+            `;
+
+            contenedor.appendChild(elemento);
+
+        });
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        contenedor.innerHTML = `
+            <div class="error">
+                No se han podido cargar los artículos.
+            </div>
+        `;
+
+    }
+
+}
+
+
+function escaparHTML(texto) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent = texto;
+
+    return div.innerHTML;
+
+}
+
+
+cargarArticulos();
+
+</script>
 
 
 </body>
