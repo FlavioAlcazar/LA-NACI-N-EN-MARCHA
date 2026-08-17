@@ -313,139 +313,89 @@
 
 <script>
 
-const form =
-    document.getElementById("publishForm");
+const form = document.getElementById("publishForm");
+const notice = document.getElementById("notice");
 
-const notice =
-    document.getElementById("notice");
+form.addEventListener("submit", async function(event) {
 
+    event.preventDefault();
 
-form.addEventListener(
-    "submit",
-    async function(event) {
+    const titulo =
+        document.getElementById("title").value.trim();
 
-        event.preventDefault();
+    const autor =
+        document.getElementById("author").value.trim();
 
+    const fecha =
+        document.getElementById("date").value;
 
-        const titulo =
-            document.getElementById("title").value;
+    const contenido =
+        document.getElementById("content").value.trim();
 
-        const autor =
-            document.getElementById("author").value;
+    const tipo =
+        document.getElementById("type").value;
 
-        const fecha =
-            document.getElementById("date").value;
-
-        const contenido =
-            document.getElementById("content").value;
-
-
-        const pdfInput =
-            document.getElementById("pdf");
+    const pdfInput =
+        document.getElementById("pdf");
 
 
-        notice.style.display =
-            "block";
-
-        notice.textContent =
-            "Publicando...";
+    notice.style.display = "block";
+    notice.textContent = "Publicando...";
 
 
-        try {
+    try {
 
-            /*
-             * Si hay PDF seleccionado,
-             * lo enviamos como archivo.
-             */
+        /*
+         * ENSAYO
+         */
+
+        if (tipo === "ensayo") {
 
             if (
-                pdfInput &&
-                pdfInput.files.length > 0
+                !pdfInput ||
+                pdfInput.files.length === 0
             ) {
-
-                const archivo =
-                    pdfInput.files[0];
-
-
-                if (
-                    archivo.type !==
-                    "application/pdf"
-                ) {
-
-                    throw new Error(
-                        "El archivo seleccionado no es un PDF."
-                    );
-
-                }
-
-
-                if (
-                    archivo.size >
-                    10 * 1024 * 1024
-                ) {
-
-                    throw new Error(
-                        "El PDF supera el límite de 10 MB."
-                    );
-
-                }
-
-
-                notice.textContent =
-                    "Subiendo PDF...";
-
-
-                const response =
-                    await fetch(
-                        "https://la-nacion-publicador.fa-1118.workers.dev/",
-                        {
-
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/pdf"
-                            },
-
-                            body: archivo
-
-                        }
-                    );
-
-
-                const resultado =
-                    await response.json();
-
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        resultado.mensaje ||
-                        JSON.stringify(resultado)
-                    );
-
-                }
-
-
-                notice.textContent =
-                    "✓ " +
-                    resultado.mensaje +
-                    " Archivo: " +
-                    resultado.archivo;
-
-
-                form.reset();
-
-                return;
-
+                throw new Error(
+                    "Selecciona un PDF para el ensayo."
+                );
             }
 
 
+            const archivo =
+                pdfInput.files[0];
+
+
+            if (
+                archivo.type !==
+                "application/pdf"
+            ) {
+                throw new Error(
+                    "El archivo seleccionado no es un PDF."
+                );
+            }
+
+
+            if (
+                archivo.size >
+                10 * 1024 * 1024
+            ) {
+                throw new Error(
+                    "El PDF supera el límite de 10 MB."
+                );
+            }
+
+
+            notice.textContent =
+                "Subiendo PDF...";
+
+
             /*
-             * Si no hay PDF,
-             * seguimos publicando el artículo
-             * exactamente como antes.
+             * Usamos el nombre original del PDF.
              */
+
+            const nombreArchivo =
+                archivo.name;
+
 
             const response =
                 await fetch(
@@ -455,8 +405,79 @@ form.addEventListener(
                         method: "POST",
 
                         headers: {
+
+                            "Content-Type":
+                                "application/pdf",
+
+                            "X-File-Name":
+                                nombreArchivo
+
+                        },
+
+                        body: archivo
+
+                    }
+                );
+
+
+            const resultado =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    resultado.mensaje ||
+                    JSON.stringify(resultado)
+                );
+
+            }
+
+
+            notice.textContent =
+                "✓ " +
+                resultado.mensaje +
+                " Archivo: " +
+                resultado.archivo;
+
+
+            form.reset();
+
+        }
+
+
+        /*
+         * ARTÍCULO
+         */
+
+        else {
+
+            if (!titulo) {
+                throw new Error(
+                    "Escribe un título."
+                );
+            }
+
+
+            if (!contenido) {
+                throw new Error(
+                    "Escribe el contenido."
+                );
+            }
+
+
+            const response =
+                await fetch(
+                    "https://la-nacion-publicador.fa-1118.workers.dev/",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+
                             "Content-Type":
                                 "application/json"
+
                         },
 
                         body: JSON.stringify({
@@ -502,22 +523,23 @@ form.addEventListener(
 
             form.reset();
 
-
-        } catch (error) {
-
-            notice.textContent =
-                "ERROR: " +
-                error.message;
-
         }
 
 
-        notice.scrollIntoView({
-            behavior: "smooth"
-        });
+    } catch (error) {
+
+        notice.textContent =
+            "ERROR: " +
+            error.message;
 
     }
-);
+
+
+    notice.scrollIntoView({
+        behavior: "smooth"
+    });
+
+});
 
 </script>
 
