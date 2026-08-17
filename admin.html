@@ -313,21 +313,100 @@
 
 <script>
 
-    const form = document.getElementById("publishForm");
+const form = document.getElementById("publishForm");
 
-    const notice = document.getElementById("notice");
+const notice = document.getElementById("notice");
 
-    form.addEventListener("submit", function(event) {
 
-        event.preventDefault();
+form.addEventListener("submit", async function(event) {
 
-        notice.style.display = "block";
+    event.preventDefault();
 
-        notice.scrollIntoView({
-            behavior: "smooth"
-        });
 
+    const titulo =
+        document.getElementById("title").value;
+
+    const autor =
+        document.getElementById("author").value;
+
+    const fecha =
+        document.getElementById("date").value;
+
+    const contenido =
+        document.getElementById("content").value;
+
+
+    notice.style.display = "block";
+
+    notice.textContent =
+        "Publicando...";
+
+
+    try {
+
+        const response = await fetch(
+            "https://la-nacion-publicador.fa-1118.workers.dev/",
+            {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    titulo: titulo,
+
+                    autor: autor,
+
+                    fecha: fecha,
+
+                    contenido: contenido
+
+                })
+
+            }
+        );
+
+
+        const resultado =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                resultado.mensaje ||
+                JSON.stringify(resultado)
+            );
+
+        }
+
+
+        notice.textContent =
+            "✓ " + resultado.mensaje +
+            " Archivo: " +
+            resultado.archivo;
+
+
+        form.reset();
+
+
+    } catch (error) {
+
+        notice.textContent =
+            "ERROR: " +
+            error.message;
+
+    }
+
+
+    notice.scrollIntoView({
+        behavior: "smooth"
     });
+
+});
 
 </script>
 
