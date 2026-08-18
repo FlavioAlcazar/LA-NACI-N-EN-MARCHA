@@ -131,10 +131,58 @@
             font-weight: bold;
         }
 
+        /* =========================
+           LOGIN
+           ========================= */
+
+        #loginScreen {
+            max-width: 600px;
+            margin: 100px auto;
+            padding: 0 5%;
+        }
+
+        #loginBox {
+            border-top: 8px solid #111;
+            padding-top: 30px;
+        }
+
+        #loginBox h1 {
+            margin: 0 0 30px;
+            font-size: 50px;
+            line-height: .9;
+            letter-spacing: -3px;
+            text-transform: uppercase;
+        }
+
+        #loginError {
+            display: none;
+            margin-top: 20px;
+            border: 3px solid #111;
+            padding: 15px;
+            font-weight: bold;
+        }
+
+        #adminContent {
+            display: none;
+        }
+
+        .logout {
+            margin-top: 40px;
+            background: #777;
+        }
+
+        .logout:hover {
+            background: #555;
+        }
+
         @media (max-width: 700px) {
 
             .two-columns {
                 grid-template-columns: 1fr;
+            }
+
+            #loginScreen {
+                margin-top: 60px;
             }
 
         }
@@ -157,8 +205,59 @@
 </header>
 
 
-<main>
+<!-- =========================
+     LOGIN
+     ========================= -->
 
+<div id="loginScreen">
+
+    <div id="loginBox">
+
+        <h1>
+            Administración
+        </h1>
+
+        <form id="loginForm">
+
+            <div class="form-row">
+
+                <label for="password">
+                    Contraseña
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Introduce tu contraseña"
+                    autocomplete="current-password"
+                    required
+                >
+
+            </div>
+
+            <button type="submit">
+                Entrar
+            </button>
+
+        </form>
+
+
+        <div id="loginError">
+            Contraseña incorrecta.
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PANEL DE ADMINISTRACIÓN
+     ========================= -->
+
+<div id="adminContent">
+
+<main>
 
     <div class="title">
 
@@ -304,24 +403,278 @@
         </div>
 
 
+        <button
+            type="button"
+            class="logout"
+            id="logout"
+        >
+            Cerrar sesión
+        </button>
+
+
     </form>
 
-
 </main>
+
+</div>
 
 
 <script>
 
-const form =
-    document.getElementById("publishForm");
 
-const notice =
-    document.getElementById("notice");
-
+/* =========================
+   CONFIGURACIÓN
+   ========================= */
 
 const WORKER_URL =
     "https://la-nacion-publicador.fa-1118.workers.dev/";
 
+
+/* =========================
+   ELEMENTOS
+   ========================= */
+
+const loginScreen =
+    document.getElementById(
+        "loginScreen"
+    );
+
+
+const adminContent =
+    document.getElementById(
+        "adminContent"
+    );
+
+
+const loginForm =
+    document.getElementById(
+        "loginForm"
+    );
+
+
+const loginError =
+    document.getElementById(
+        "loginError"
+    );
+
+
+const passwordInput =
+    document.getElementById(
+        "password"
+    );
+
+
+const form =
+    document.getElementById(
+        "publishForm"
+    );
+
+
+const notice =
+    document.getElementById(
+        "notice"
+    );
+
+
+const logout =
+    document.getElementById(
+        "logout"
+    );
+
+
+/* =========================
+   SESIÓN
+   ========================= */
+
+let adminPassword =
+    sessionStorage.getItem(
+        "adminPassword"
+    );
+
+
+function mostrarPanel() {
+
+    loginScreen.style.display =
+        "none";
+
+    adminContent.style.display =
+        "block";
+
+}
+
+
+function mostrarLogin() {
+
+    loginScreen.style.display =
+        "block";
+
+    adminContent.style.display =
+        "none";
+
+    passwordInput.value = "";
+
+}
+
+
+/* =========================
+   COMPROBAR CONTRASEÑA
+   ========================= */
+
+async function comprobarPassword(
+    password
+) {
+
+    try {
+
+        const response =
+            await fetch(
+                WORKER_URL,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "X-Admin-Password":
+                            password
+                    },
+
+                    body:
+                        JSON.stringify({
+                            prueba: true
+                        })
+                }
+            );
+
+
+        /*
+         * Si recibimos 401,
+         * la contraseña es incorrecta.
+         *
+         * Cualquier otra respuesta
+         * significa que la autenticación
+         * ha pasado.
+         */
+
+        if (response.status === 401) {
+            return false;
+        }
+
+
+        return true;
+
+
+    } catch (error) {
+
+        /*
+         * Si el Worker está accesible pero
+         * responde con otro error, seguimos
+         * considerando válida la contraseña.
+         *
+         * La publicación volverá a comprobarla.
+         */
+
+        return true;
+
+    }
+
+}
+
+
+/* =========================
+   LOGIN
+   ========================= */
+
+loginForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        const password =
+            passwordInput.value;
+
+
+        loginError.style.display =
+            "none";
+
+
+        if (!password) {
+            return;
+        }
+
+
+        const correcta =
+            await comprobarPassword(
+                password
+            );
+
+
+        if (!correcta) {
+
+            loginError.style.display =
+                "block";
+
+            passwordInput.focus();
+
+            return;
+
+        }
+
+
+        adminPassword =
+            password;
+
+
+        sessionStorage.setItem(
+            "adminPassword",
+            password
+        );
+
+
+        mostrarPanel();
+
+    }
+);
+
+
+/* =========================
+   SESIÓN EXISTENTE
+   ========================= */
+
+if (adminPassword) {
+
+    mostrarPanel();
+
+}
+
+
+/* =========================
+   CERRAR SESIÓN
+   ========================= */
+
+logout.addEventListener(
+    "click",
+    function() {
+
+        sessionStorage.removeItem(
+            "adminPassword"
+        );
+
+        adminPassword =
+            null;
+
+        mostrarLogin();
+
+    }
+);
+
+
+/* =========================
+   PUBLICAR
+   ========================= */
 
 form.addEventListener(
     "submit",
@@ -378,6 +731,7 @@ form.addEventListener(
         notice.style.display =
             "block";
 
+
         notice.textContent =
             "Publicando...";
 
@@ -389,7 +743,9 @@ form.addEventListener(
                ENSAYO
                ========================= */
 
-            if (tipo === "ensayo") {
+            if (
+                tipo === "ensayo"
+            ) {
 
 
                 if (!titulo) {
@@ -442,57 +798,6 @@ form.addEventListener(
 
 
                 notice.textContent =
-                    "Preparando ensayo...";
-
-
-                const datosEnsayo = {
-
-                    titulo:
-                        titulo,
-
-                    autor:
-                        autor,
-
-                    fecha:
-                        fecha,
-
-                    descripcion:
-                        descripcion
-
-                };
-
-
-                const texto =
-                    JSON.stringify(
-                        datosEnsayo
-                    );
-
-
-                const bytes =
-                    new TextEncoder()
-                        .encode(texto);
-
-
-                let binario = "";
-
-
-                for (
-                    const byte of bytes
-                ) {
-
-                    binario +=
-                        String.fromCharCode(
-                            byte
-                        );
-
-                }
-
-
-                const metadataBase64 =
-                    btoa(binario);
-
-
-                notice.textContent =
                     "Subiendo PDF...";
 
 
@@ -512,8 +817,8 @@ form.addEventListener(
                                 "X-File-Name":
                                     archivo.name,
 
-                                "X-Essay-Meta":
-                                    metadataBase64
+                                "X-Admin-Password":
+                                    adminPassword
 
                             },
 
@@ -528,11 +833,36 @@ form.addEventListener(
                     await response.json();
 
 
-                if (!response.ok) {
+                if (
+                    !response.ok
+                ) {
+
+                    if (
+                        response.status ===
+                        401
+                    ) {
+
+                        sessionStorage.removeItem(
+                            "adminPassword"
+                        );
+
+                        adminPassword =
+                            null;
+
+                        mostrarLogin();
+
+                        throw new Error(
+                            "Sesión no autorizada. Vuelve a introducir la contraseña."
+                        );
+
+                    }
+
 
                     throw new Error(
                         resultado.mensaje ||
-                        JSON.stringify(resultado)
+                        JSON.stringify(
+                            resultado
+                        )
                     );
 
                 }
@@ -546,6 +876,7 @@ form.addEventListener(
 
 
                 form.reset();
+
 
             }
 
@@ -586,7 +917,10 @@ form.addEventListener(
                             headers: {
 
                                 "Content-Type":
-                                    "application/json"
+                                    "application/json",
+
+                                "X-Admin-Password":
+                                    adminPassword
 
                             },
 
@@ -615,11 +949,36 @@ form.addEventListener(
                     await response.json();
 
 
-                if (!response.ok) {
+                if (
+                    !response.ok
+                ) {
+
+                    if (
+                        response.status ===
+                        401
+                    ) {
+
+                        sessionStorage.removeItem(
+                            "adminPassword"
+                        );
+
+                        adminPassword =
+                            null;
+
+                        mostrarLogin();
+
+                        throw new Error(
+                            "Sesión no autorizada. Vuelve a introducir la contraseña."
+                        );
+
+                    }
+
 
                     throw new Error(
                         resultado.mensaje ||
-                        JSON.stringify(resultado)
+                        JSON.stringify(
+                            resultado
+                        )
                     );
 
                 }
@@ -652,6 +1011,7 @@ form.addEventListener(
 
     }
 );
+
 
 </script>
 
