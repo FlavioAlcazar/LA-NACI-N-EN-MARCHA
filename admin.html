@@ -1,3 +1,6 @@
+# `admin.html`
+
+```html
 <!DOCTYPE html>
 <html lang="es">
 
@@ -123,6 +126,33 @@
             background: #444;
         }
 
+        /* =========================
+           CAMPO DE SENHA
+           ========================= */
+
+        .password-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .password-container input {
+            flex: 1;
+        }
+
+        .toggle-password {
+            margin-top: 0;
+            padding: 15px 18px;
+            white-space: nowrap;
+        }
+
+        .toggle-password:hover {
+            background: #444;
+        }
+
+        /* =========================
+           AVISOS
+           ========================= */
+
         .notice {
             display: none;
             margin-top: 25px;
@@ -130,7 +160,6 @@
             padding: 20px;
             font-weight: bold;
         }
-
 
         /* =========================
            EDITAR / VISTA PREVIA
@@ -209,7 +238,6 @@
             text-transform: uppercase;
         }
 
-
         /* =========================
            LOGIN
            ========================= */
@@ -260,6 +288,14 @@
                 grid-template-columns: 1fr;
             }
 
+            .password-container {
+                flex-direction: column;
+            }
+
+            .toggle-password {
+                width: 100%;
+            }
+
             #loginScreen {
                 margin-top: 60px;
             }
@@ -304,13 +340,25 @@
                     Contraseña
                 </label>
 
-                <input
-                    type="password"
-                    id="password"
-                    placeholder="Introduce tu contraseña"
-                    autocomplete="current-password"
-                    required
-                >
+                <div class="password-container">
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Introduce tu contraseña"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        id="togglePassword"
+                        class="toggle-password"
+                    >
+                        👁 Mostrar
+                    </button>
+
+                </div>
 
             </div>
 
@@ -610,6 +658,12 @@ const passwordInput =
     );
 
 
+const togglePassword =
+    document.getElementById(
+        "togglePassword"
+    );
+
+
 const form =
     document.getElementById(
         "publishForm"
@@ -680,6 +734,38 @@ const previewPdf =
     document.getElementById(
         "previewPdf"
     );
+
+
+/* =========================
+   MOSTRAR / OCULTAR CONTRASEÑA
+   ========================= */
+
+togglePassword.addEventListener(
+    "click",
+    function() {
+
+        if (
+            passwordInput.type === "password"
+        ) {
+
+            passwordInput.type =
+                "text";
+
+            togglePassword.textContent =
+                "🙈 Ocultar";
+
+        } else {
+
+            passwordInput.type =
+                "password";
+
+            togglePassword.textContent =
+                "👁 Mostrar";
+
+        }
+
+    }
+);
 
 
 /* =========================
@@ -789,7 +875,7 @@ function actualizarVistaPrevia() {
 
 
 /* =========================
-   MOSTRAR EDITOR
+   EDITOR
    ========================= */
 
 function mostrarEditor() {
@@ -812,8 +898,14 @@ function mostrarEditor() {
 }
 
 
+editButton.addEventListener(
+    "click",
+    mostrarEditor
+);
+
+
 /* =========================
-   MOSTRAR VISTA PREVIA
+   VISTA PREVIA
    ========================= */
 
 function mostrarVistaPrevia() {
@@ -845,20 +937,15 @@ function mostrarVistaPrevia() {
 }
 
 
-editButton.addEventListener(
-    "click",
-    mostrarEditor
-);
-
-
 previewButton.addEventListener(
     "click",
     mostrarVistaPrevia
 );
 
 
-/* Actualizar los datos
-   de la vista previa */
+/* =========================
+   ACTUALIZACIÓN EN TIEMPO REAL
+   ========================= */
 
 [
     "title",
@@ -1423,3 +1510,4 @@ form.addEventListener(
 </body>
 
 </html>
+```
