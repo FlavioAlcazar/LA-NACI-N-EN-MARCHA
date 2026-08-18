@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 
@@ -225,7 +226,6 @@
 
 <script>
 
-
 const contenedor =
     document.getElementById("articles");
 
@@ -237,7 +237,6 @@ const API =
 async function cargarArticulos() {
 
     try {
-
 
         const respuesta =
             await fetch(API);
@@ -255,14 +254,6 @@ async function cargarArticulos() {
         const archivos =
             await respuesta.json();
 
-
-        /*
-         * Buscamos únicamente los HTML
-         * que corresponden a artículos.
-         *
-         * No incluimos pdf.html si todavía
-         * existe de las pruebas anteriores.
-         */
 
         const articulos =
             archivos.filter(
@@ -294,17 +285,11 @@ async function cargarArticulos() {
         const datos = [];
 
 
-        /*
-         * Leemos cada artículo.
-         */
-
         for (
             const archivo of articulos
         ) {
 
-
             try {
-
 
                 const respuestaArticulo =
                     await fetch(
@@ -364,11 +349,6 @@ async function cargarArticulos() {
                     "";
 
 
-                /*
-                 * Creamos una descripción
-                 * a partir del comienzo del artículo.
-                 */
-
                 const descripcion =
                     contenido.length > 220
                         ? contenido.substring(
@@ -426,14 +406,9 @@ async function cargarArticulos() {
         contenedor.innerHTML = "";
 
 
-        /*
-         * Los más recientes aparecen primero.
-         */
-
         datos.reverse()
             .forEach(
                 articulo => {
-
 
                     const elemento =
                         document
@@ -444,6 +419,18 @@ async function cargarArticulos() {
 
                     elemento.className =
                         "article";
+
+
+                    /*
+                     * Enlace directo al archivo
+                     * dentro de la carpeta articulos.
+                     */
+
+                    const enlace =
+                        "articulos/" +
+                        encodeURIComponent(
+                            articulo.archivo
+                        );
 
 
                     elemento.innerHTML = `
@@ -457,9 +444,7 @@ async function cargarArticulos() {
                             <h2>
 
                                 <a
-                                    href="articulos/${encodeURIComponent(
-                                        articulo.archivo
-                                    )}"
+                                    href="${enlace}"
                                 >
                                     ${escaparHTML(
                                         articulo.titulo
@@ -498,7 +483,6 @@ async function cargarArticulos() {
 
 
     } catch (error) {
-
 
         console.error(error);
 
@@ -544,3 +528,4 @@ cargarArticulos();
 </body>
 
 </html>
+```
