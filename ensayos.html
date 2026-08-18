@@ -99,15 +99,6 @@
             text-transform: uppercase;
         }
 
-        .essay h2 a {
-            color: #111;
-            text-decoration: none;
-        }
-
-        .essay h2 a:hover {
-            text-decoration: underline;
-        }
-
         .description {
             max-width: 750px;
             font-family: Georgia, "Times New Roman", serif;
@@ -182,13 +173,15 @@
     </div>
 
     <nav>
-    <a href="index.html">Inicio</a>
-    <a href="articulos.html">Artículos</a>
-    <a href="ensayos.html">Ensayos</a>
-    <a href="temas.html">Temas</a>
-    <a href="proyecto.html">Proyecto</a>
-    <a href="contacto.html">Contacto</a>
-</nav>
+
+        <a href="index.html">Inicio</a>
+        <a href="articulos.html">Artículos</a>
+        <a href="ensayos.html">Ensayos</a>
+        <a href="temas.html">Temas</a>
+        <a href="proyecto.html">Proyecto</a>
+        <a href="contacto.html">Contacto</a>
+
+    </nav>
 
 </header>
 
@@ -205,65 +198,17 @@
     </div>
 
 
-    <article class="essay">
+    <div id="ensayos">
 
-        <div class="essay-label">
-            Ensayo · 2026
-        </div>
+        <div class="essay">
 
-        <h2>
-            <a href="articulo.html">
-                El título de nuestro primer ensayo
-            </a>
-        </h2>
-
-        <div class="description">
-
-            Una introducción al ensayo. Aquí podremos explicar
-            brevemente el contenido y las cuestiones principales
-            que aborda la publicación.
+            <div class="essay-label">
+                Cargando ensayos...
+            </div>
 
         </div>
 
-        <div class="meta">
-
-            Nombre del autor · 17 agosto 2026
-
-        </div>
-
-        <a class="pdf" href="#">
-            Abrir PDF
-        </a>
-
-    </article>
-
-
-    <article class="essay">
-
-        <div class="essay-label">
-            Ensayo · Próximamente
-        </div>
-
-        <h2>
-            <a href="#">
-                Segundo ensayo
-            </a>
-        </h2>
-
-        <div class="description">
-
-            Aquí aparecerá la descripción de una futura
-            publicación.
-
-        </div>
-
-        <div class="meta">
-
-            La Nación en Marcha
-
-        </div>
-
-    </article>
+    </div>
 
 
 </main>
@@ -274,6 +219,176 @@
     La Nación en Marcha · 2026
 
 </footer>
+
+
+<script>
+
+const contenedor =
+    document.getElementById("ensayos");
+
+
+const API =
+    "https://api.github.com/repos/FlavioAlcazar/LA-NACI-N-EN-MARCHA/contents/ensayos";
+
+
+async function cargarEnsayos() {
+
+    try {
+
+        const respuesta =
+            await fetch(API);
+
+
+        if (!respuesta.ok) {
+
+            throw new Error(
+                "No se pudieron cargar los ensayos."
+            );
+
+        }
+
+
+        const archivos =
+            await respuesta.json();
+
+
+        const pdfs =
+            archivos.filter(
+                archivo =>
+                    archivo.type === "file" &&
+                    archivo.name
+                        .toLowerCase()
+                        .endsWith(".pdf")
+            );
+
+
+        if (pdfs.length === 0) {
+
+            contenedor.innerHTML = `
+
+                <div class="essay">
+
+                    <div class="essay-label">
+                        Próximamente
+                    </div>
+
+                    <h2>
+                        No hay ensayos publicados todavía
+                    </h2>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        contenedor.innerHTML = "";
+
+
+        pdfs.forEach(archivo => {
+
+            let titulo =
+                archivo.name
+                    .replace(/\.pdf$/i, "")
+                    .replace(/[-_]+/g, " ")
+                    .replace(/\s+/g, " ")
+                    .trim();
+
+
+            titulo =
+                titulo
+                    .toLowerCase()
+                    .replace(/\b\w/g, letra =>
+                        letra.toUpperCase()
+                    );
+
+
+            const ensayo =
+                document.createElement("article");
+
+
+            ensayo.className =
+                "essay";
+
+
+            ensayo.innerHTML = `
+
+                <div class="essay-label">
+                    Ensayo
+                </div>
+
+
+                <h2>
+                    ${titulo}
+                </h2>
+
+
+                <div class="description">
+                    Documento publicado en
+                    La Nación en Marcha.
+                </div>
+
+
+                <div class="meta">
+                    La Nación en Marcha
+                </div>
+
+
+                <a
+                    class="pdf"
+                    href="${archivo.download_url}"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Abrir PDF
+                </a>
+
+            `;
+
+
+            contenedor.appendChild(
+                ensayo
+            );
+
+        });
+
+
+    } catch (error) {
+
+        contenedor.innerHTML = `
+
+            <div class="essay">
+
+                <div class="essay-label">
+                    Error
+                </div>
+
+
+                <h2>
+                    No se han podido cargar
+                    los ensayos
+                </h2>
+
+
+                <div class="description">
+                    ${error.message}
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+cargarEnsayos();
+
+</script>
 
 
 </body>
