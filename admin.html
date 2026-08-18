@@ -131,6 +131,85 @@
             font-weight: bold;
         }
 
+
+        /* =========================
+           EDITAR / VISTA PREVIA
+           ========================= */
+
+        .preview-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #111;
+            padding-bottom: 15px;
+        }
+
+        .preview-controls button {
+            margin-top: 0;
+        }
+
+        .preview-controls button.active {
+            background: #555;
+        }
+
+        #preview {
+            display: none;
+            background: #dededb;
+            border: 2px solid #111;
+            padding: 50px 6%;
+            margin-bottom: 30px;
+        }
+
+        #preview .preview-type {
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        #preview h1 {
+            margin: 0 0 30px;
+            font-size: clamp(45px, 8vw, 90px);
+            line-height: .85;
+            letter-spacing: -5px;
+            text-transform: uppercase;
+        }
+
+        #preview .preview-meta {
+            border-top: 3px solid #111;
+            border-bottom: 1px solid #555;
+            padding: 15px 0;
+            margin-bottom: 40px;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        #preview .preview-description {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        #preview .preview-content {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 20px;
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+
+        #preview .preview-pdf {
+            margin-top: 30px;
+            border-top: 2px solid #111;
+            padding-top: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+
         /* =========================
            LOGIN
            ========================= */
@@ -267,6 +346,73 @@
 
     </div>
 
+
+    <!-- BOTONES -->
+
+    <div class="preview-controls">
+
+        <button
+            type="button"
+            id="editButton"
+            class="active"
+        >
+            Editar
+        </button>
+
+        <button
+            type="button"
+            id="previewButton"
+        >
+            Vista previa
+        </button>
+
+    </div>
+
+
+    <!-- VISTA PREVIA -->
+
+    <div id="preview">
+
+        <div
+            class="preview-type"
+            id="previewType"
+        >
+            Artículo
+        </div>
+
+        <h1 id="previewTitle">
+            Título de la publicación
+        </h1>
+
+        <div
+            class="preview-meta"
+            id="previewMeta"
+        >
+            La Nación en Marcha · Fecha
+        </div>
+
+        <div
+            class="preview-description"
+            id="previewDescription"
+        ></div>
+
+        <div
+            class="preview-content"
+            id="previewContent"
+        >
+            Escribe contenido para ver la vista previa.
+        </div>
+
+        <div
+            class="preview-pdf"
+            id="previewPdf"
+            style="display:none;"
+        ></div>
+
+    </div>
+
+
+    <!-- EDITOR -->
 
     <form id="publishForm">
 
@@ -482,6 +628,266 @@ const logout =
     );
 
 
+const editButton =
+    document.getElementById(
+        "editButton"
+    );
+
+
+const previewButton =
+    document.getElementById(
+        "previewButton"
+    );
+
+
+const preview =
+    document.getElementById(
+        "preview"
+    );
+
+
+const previewType =
+    document.getElementById(
+        "previewType"
+    );
+
+
+const previewTitle =
+    document.getElementById(
+        "previewTitle"
+    );
+
+
+const previewMeta =
+    document.getElementById(
+        "previewMeta"
+    );
+
+
+const previewDescription =
+    document.getElementById(
+        "previewDescription"
+    );
+
+
+const previewContent =
+    document.getElementById(
+        "previewContent"
+    );
+
+
+const previewPdf =
+    document.getElementById(
+        "previewPdf"
+    );
+
+
+/* =========================
+   VISTA PREVIA
+   ========================= */
+
+function actualizarVistaPrevia() {
+
+    const titulo =
+        document
+            .getElementById("title")
+            .value
+            .trim() ||
+        "Título de la publicación";
+
+
+    const autor =
+        document
+            .getElementById("author")
+            .value
+            .trim() ||
+        "La Nación en Marcha";
+
+
+    const fecha =
+        document
+            .getElementById("date")
+            .value ||
+        "Fecha";
+
+
+    const descripcion =
+        document
+            .getElementById("description")
+            .value
+            .trim();
+
+
+    const contenido =
+        document
+            .getElementById("content")
+            .value
+            .trim() ||
+        "Escribe contenido para ver la vista previa.";
+
+
+    const tipo =
+        document
+            .getElementById("type")
+            .value;
+
+
+    const pdfInput =
+        document
+            .getElementById("pdf");
+
+
+    previewType.textContent =
+        tipo === "ensayo"
+            ? "Ensayo"
+            : "Artículo";
+
+
+    previewTitle.textContent =
+        titulo;
+
+
+    previewMeta.textContent =
+        autor + " · " + fecha;
+
+
+    previewDescription.textContent =
+        descripcion;
+
+
+    previewDescription.style.display =
+        descripcion
+            ? "block"
+            : "none";
+
+
+    previewContent.textContent =
+        contenido;
+
+
+    if (
+        tipo === "ensayo" &&
+        pdfInput.files.length > 0
+    ) {
+
+        previewPdf.textContent =
+            "PDF seleccionado: " +
+            pdfInput.files[0].name;
+
+
+        previewPdf.style.display =
+            "block";
+
+    } else {
+
+        previewPdf.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =========================
+   MOSTRAR EDITOR
+   ========================= */
+
+function mostrarEditor() {
+
+    form.style.display =
+        "block";
+
+    preview.style.display =
+        "none";
+
+
+    editButton.classList.add(
+        "active"
+    );
+
+    previewButton.classList.remove(
+        "active"
+    );
+
+}
+
+
+/* =========================
+   MOSTRAR VISTA PREVIA
+   ========================= */
+
+function mostrarVistaPrevia() {
+
+    actualizarVistaPrevia();
+
+
+    form.style.display =
+        "none";
+
+    preview.style.display =
+        "block";
+
+
+    editButton.classList.remove(
+        "active"
+    );
+
+    previewButton.classList.add(
+        "active"
+    );
+
+
+    preview.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+}
+
+
+editButton.addEventListener(
+    "click",
+    mostrarEditor
+);
+
+
+previewButton.addEventListener(
+    "click",
+    mostrarVistaPrevia
+);
+
+
+/* Actualizar los datos
+   de la vista previa */
+
+[
+    "title",
+    "author",
+    "date",
+    "description",
+    "content",
+    "type",
+    "pdf"
+].forEach(id => {
+
+    document
+        .getElementById(id)
+        .addEventListener(
+            "input",
+            actualizarVistaPrevia
+        );
+
+
+    document
+        .getElementById(id)
+        .addEventListener(
+            "change",
+            actualizarVistaPrevia
+        );
+
+});
+
+
 /* =========================
    SESIÓN
    ========================= */
@@ -530,35 +936,35 @@ async function comprobarPassword(
             await fetch(
                 WORKER_URL,
                 {
-                    method: "POST",
+
+                    method:
+                        "POST",
 
                     headers: {
+
                         "Content-Type":
                             "application/json",
 
                         "X-Admin-Password":
                             password
+
                     },
 
                     body:
                         JSON.stringify({
                             prueba: true
                         })
+
                 }
             );
 
 
-        /*
-         * Si recibimos 401,
-         * la contraseña es incorrecta.
-         *
-         * Cualquier otra respuesta
-         * significa que la autenticación
-         * ha pasado.
-         */
+        if (
+            response.status === 401
+        ) {
 
-        if (response.status === 401) {
             return false;
+
         }
 
 
@@ -566,14 +972,6 @@ async function comprobarPassword(
 
 
     } catch (error) {
-
-        /*
-         * Si el Worker está accesible pero
-         * responde con otro error, seguimos
-         * considerando válida la contraseña.
-         *
-         * La publicación volverá a comprobarla.
-         */
 
         return true;
 
@@ -663,8 +1061,10 @@ logout.addEventListener(
             "adminPassword"
         );
 
+
         adminPassword =
             null;
+
 
         mostrarLogin();
 
@@ -746,7 +1146,6 @@ form.addEventListener(
             if (
                 tipo === "ensayo"
             ) {
-
 
                 if (!titulo) {
 
@@ -877,6 +1276,9 @@ form.addEventListener(
 
                 form.reset();
 
+                actualizarVistaPrevia();
+
+                mostrarEditor();
 
             }
 
@@ -886,7 +1288,6 @@ form.addEventListener(
                ========================= */
 
             else {
-
 
                 if (!titulo) {
 
@@ -993,6 +1394,10 @@ form.addEventListener(
 
                 form.reset();
 
+                actualizarVistaPrevia();
+
+                mostrarEditor();
+
             }
 
 
@@ -1011,7 +1416,6 @@ form.addEventListener(
 
     }
 );
-
 
 </script>
 
