@@ -1,3 +1,6 @@
+# contacto.html
+
+```html
 <!DOCTYPE html>
 <html lang="es">
 
@@ -67,7 +70,7 @@
         .page-title {
             border-bottom: 8px solid #111;
             padding-bottom: 30px;
-            margin-bottom: 70px;
+            margin-bottom: 60px;
         }
 
         .page-title h1 {
@@ -78,49 +81,26 @@
             text-transform: uppercase;
         }
 
-        .contact-intro {
-            max-width: 800px;
+        .content {
+            max-width: 850px;
             font-family: Georgia, "Times New Roman", serif;
-            font-size: 25px;
-            line-height: 1.5;
-            margin-bottom: 60px;
+            font-size: 20px;
+            line-height: 1.7;
         }
 
         .contact-box {
-            border-top: 4px solid #111;
-            border-bottom: 4px solid #111;
-            padding: 40px 0;
-            max-width: 800px;
+            border-top: 3px solid #111;
+            padding-top: 25px;
+            margin-top: 20px;
         }
 
-        .contact-item {
-            margin-bottom: 35px;
-        }
-
-        .contact-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .label {
+        .contact-label {
+            font-family: Arial, Helvetica, sans-serif;
             font-size: 11px;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 8px;
-        }
-
-        .value {
-            font-family: Georgia, serif;
-            font-size: 24px;
-        }
-
-        .value a {
-            color: #111;
-            text-decoration: none;
-        }
-
-        .value a:hover {
-            text-decoration: underline;
+            margin-bottom: 10px;
         }
 
         footer {
@@ -139,8 +119,8 @@
                 gap: 20px;
             }
 
-            .contact-intro {
-                font-size: 21px;
+            nav {
+                gap: 15px;
             }
 
         }
@@ -163,17 +143,11 @@
     <nav>
 
         <a href="index.html">Inicio</a>
-
         <a href="articulos.html">Artículos</a>
-
         <a href="ensayos.html">Ensayos</a>
-
         <a href="temas.html">Temas</a>
-
         <a href="proyecto.html">Proyecto</a>
-
         <a href="contacto.html">Contacto</a>
-
         <a href="admin.html">Administración</a>
 
     </nav>
@@ -182,7 +156,6 @@
 
 
 <main>
-
 
     <div class="page-title">
 
@@ -193,49 +166,23 @@
     </div>
 
 
-    <div class="contact-intro">
+    <div class="content">
 
-        Para propuestas, colaboraciones, textos o cualquier
-        otra cuestión relacionada con el proyecto.
+        <div class="contact-box">
 
-    </div>
-
-
-    <div class="contact-box">
-
-
-        <div class="contact-item">
-
-            <div class="label">
-                Correo electrónico
+            <div class="contact-label">
+                Contacto
             </div>
 
-            <div class="value">
-
-                <a href="mailto:correo@ejemplo.com">
-                    correo@ejemplo.com
-                </a>
-
-            </div>
+            <p>
+                Para cualquier cuestión relacionada con
+                La Nación en Marcha, utiliza los canales
+                de contacto correspondientes al proyecto.
+            </p>
 
         </div>
 
-
-        <div class="contact-item">
-
-            <div class="label">
-                Proyecto
-            </div>
-
-            <div class="value">
-                La Nación en Marcha
-            </div>
-
-        </div>
-
-
     </div>
-
 
 </main>
 
@@ -250,3 +197,4 @@
 </body>
 
 </html>
+```
