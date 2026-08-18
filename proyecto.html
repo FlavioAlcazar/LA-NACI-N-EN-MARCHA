@@ -1,3 +1,6 @@
+# proyecto.html
+
+```html
 <!DOCTYPE html>
 <html lang="es">
 
@@ -6,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>El proyecto — La Nación en Marcha</title>
+    <title>Proyecto — La Nación en Marcha</title>
 
     <style>
 
@@ -54,6 +57,10 @@
             letter-spacing: 1px;
         }
 
+        nav a:hover {
+            color: #aaa;
+        }
+
         main {
             max-width: 1200px;
             margin: 0 auto;
@@ -63,72 +70,26 @@
         .page-title {
             border-bottom: 8px solid #111;
             padding-bottom: 30px;
-            margin-bottom: 70px;
+            margin-bottom: 60px;
         }
 
         .page-title h1 {
             margin: 0;
-            font-size: clamp(55px, 10vw, 130px);
+            font-size: clamp(60px, 10vw, 130px);
             line-height: .8;
             letter-spacing: -7px;
             text-transform: uppercase;
         }
 
-        .manifesto {
-            max-width: 950px;
-            margin-bottom: 90px;
-        }
-
-        .manifesto p {
-            margin: 0;
-            font-size: clamp(32px, 5vw, 65px);
-            line-height: .95;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -3px;
-        }
-
-        .text {
-            max-width: 750px;
+        .content {
+            max-width: 850px;
             font-family: Georgia, "Times New Roman", serif;
             font-size: 20px;
             line-height: 1.7;
         }
 
-        .text p {
-            margin-bottom: 30px;
-        }
-
-        .principles {
-            margin-top: 80px;
-            border-top: 4px solid #111;
-        }
-
-        .principle {
-            display: grid;
-            grid-template-columns: 100px 1fr;
-            gap: 30px;
-            padding: 30px 0;
-            border-bottom: 1px solid #555;
-        }
-
-        .number {
-            font-size: 40px;
-            font-weight: 900;
-        }
-
-        .principle h2 {
-            margin: 0 0 10px;
-            font-size: 25px;
-            text-transform: uppercase;
-        }
-
-        .principle p {
-            margin: 0;
-            max-width: 650px;
-            font-family: Georgia, serif;
-            font-size: 17px;
-            line-height: 1.5;
+        .content p {
+            margin: 0 0 30px;
         }
 
         footer {
@@ -147,9 +108,8 @@
                 gap: 20px;
             }
 
-            .principle {
-                grid-template-columns: 1fr;
-                gap: 10px;
+            nav {
+                gap: 15px;
             }
 
         }
@@ -170,13 +130,15 @@
     </div>
 
     <nav>
+
         <a href="index.html">Inicio</a>
         <a href="articulos.html">Artículos</a>
         <a href="ensayos.html">Ensayos</a>
         <a href="temas.html">Temas</a>
         <a href="proyecto.html">Proyecto</a>
-        <a href="#">Contacto</a>
+        <a href="contacto.html">Contacto</a>
         <a href="admin.html">Administración</a>
+
     </nav>
 
 </header>
@@ -184,120 +146,29 @@
 
 <main>
 
-
     <div class="page-title">
 
         <h1>
-            El proyecto
+            Proyecto
         </h1>
 
     </div>
 
 
-    <section class="manifesto">
+    <div class="content">
 
         <p>
-            Pensar. Escribir.
-            Discutir. Construir.
-        </p>
-
-    </section>
-
-
-    <section class="text">
-
-        <p>
-            La Nación en Marcha es un espacio de publicación
-            y debate político. Un lugar dedicado a la elaboración
-            de ideas, al análisis de nuestro tiempo y a la discusión
-            sobre el futuro.
+            La Nación en Marcha es un espacio de difusión,
+            reflexión y publicación de artículos y ensayos.
         </p>
 
         <p>
-            Esta página está reservada para explicar con mayor
-            profundidad el proyecto, su propósito y las personas
-            que participan en él.
+            Este proyecto pretende reunir y desarrollar
+            diferentes ideas, análisis y propuestas a través
+            de publicaciones propias y materiales de interés.
         </p>
 
-        <p>
-            Este texto es provisional. Más adelante podremos
-            sustituirlo por la presentación real del proyecto.
-        </p>
-
-    </section>
-
-
-    <section class="principles">
-
-
-        <div class="principle">
-
-            <div class="number">
-                01
-            </div>
-
-            <div>
-
-                <h2>
-                    Pensamiento
-                </h2>
-
-                <p>
-                    Un espacio para desarrollar ideas
-                    y argumentos.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="principle">
-
-            <div class="number">
-                02
-            </div>
-
-            <div>
-
-                <h2>
-                    Debate
-                </h2>
-
-                <p>
-                    Un lugar abierto a la discusión
-                    y al intercambio de perspectivas.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="principle">
-
-            <div class="number">
-                03
-            </div>
-
-            <div>
-
-                <h2>
-                    Publicación
-                </h2>
-
-                <p>
-                    Artículos, ensayos y documentos
-                    para ser leídos y discutidos.
-                </p>
-
-            </div>
-
-        </div>
-
-
-    </section>
-
+    </div>
 
 </main>
 
@@ -312,3 +183,4 @@
 </body>
 
 </html>
+```
