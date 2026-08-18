@@ -252,17 +252,21 @@ async function cargarEnsayos() {
             await respuesta.json();
 
 
-        const pdfs =
+        /*
+         * Buscamos los archivos JSON.
+         */
+
+        const metadatos =
             archivos.filter(
                 archivo =>
                     archivo.type === "file" &&
                     archivo.name
                         .toLowerCase()
-                        .endsWith(".pdf")
+                        .endsWith(".json")
             );
 
 
-        if (pdfs.length === 0) {
+        if (metadatos.length === 0) {
 
             contenedor.innerHTML = `
 
@@ -288,72 +292,165 @@ async function cargarEnsayos() {
         contenedor.innerHTML = "";
 
 
-        pdfs.forEach(archivo => {
+        /*
+         * Cargamos cada JSON.
+         */
 
-            let titulo =
-                archivo.name
-                    .replace(/\.pdf$/i, "")
-                    .replace(/[-_]+/g, " ")
-                    .replace(/\s+/g, " ")
-                    .trim();
+        for (
+            const archivoJSON of metadatos
+        ) {
 
 
-            titulo =
-                titulo
-                    .toLowerCase()
-                    .replace(/\b\w/g, letra =>
-                        letra.toUpperCase()
+            try {
+
+                const respuestaJSON =
+                    await fetch(
+                        archivoJSON.download_url
                     );
 
 
-            const ensayo =
-                document.createElement("article");
+                if (!respuestaJSON.ok) {
+                    continue;
+                }
 
 
-            ensayo.className =
-                "essay";
+                const datos =
+                    await respuestaJSON.json();
 
 
-            ensayo.innerHTML = `
+                const titulo =
+                    datos.titulo ||
+                    "Ensayo sin título";
 
-                <div class="essay-label">
-                    Ensayo
+
+                const autor =
+                    datos.autor ||
+                    "La Nación en Marcha";
+
+
+                const fecha =
+                    datos.fecha ||
+                    "";
+
+
+                const descripcion =
+                    datos.descripcion ||
+                    "Ensayo publicado en La Nación en Marcha.";
+
+
+                const archivoPDF =
+                    datos.archivo;
+
+
+                if (!archivoPDF) {
+                    continue;
+                }
+
+
+                /*
+                 * URL directa al PDF.
+                 */
+
+                const urlPDF =
+                    "https://raw.githubusercontent.com/" +
+                    "FlavioAlcazar/LA-NACI-N-EN-MARCHA/" +
+                    "main/" +
+                    archivoPDF;
+
+
+                const ensayo =
+                    document.createElement(
+                        "article"
+                    );
+
+
+                ensayo.className =
+                    "essay";
+
+
+                ensayo.innerHTML = `
+
+                    <div class="essay-label">
+                        Ensayo
+                    </div>
+
+
+                    <h2>
+                        ${escapeHtml(titulo)}
+                    </h2>
+
+
+                    <div class="description">
+                        ${escapeHtml(descripcion)}
+                    </div>
+
+
+                    <div class="meta">
+                        ${escapeHtml(autor)}
+                        ${fecha ? " · " + escapeHtml(fecha) : ""}
+                    </div>
+
+
+                    <a
+                        class="pdf"
+                        href="${urlPDF}"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        Abrir PDF
+                    </a>
+
+                `;
+
+
+                contenedor.appendChild(
+                    ensayo
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error cargando ensayo:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        /*
+         * Si no se pudo mostrar ningún ensayo.
+         */
+
+        if (
+            contenedor.children.length === 0
+        ) {
+
+            contenedor.innerHTML = `
+
+                <div class="essay">
+
+                    <div class="essay-label">
+                        Error
+                    </div>
+
+                    <h2>
+                        No se han podido cargar
+                        los ensayos
+                    </h2>
+
+                    <div class="description">
+                        Los archivos de información
+                        no contienen datos válidos.
+                    </div>
+
                 </div>
-
-
-                <h2>
-                    ${titulo}
-                </h2>
-
-
-                <div class="description">
-                    Documento publicado en
-                    La Nación en Marcha.
-                </div>
-
-
-                <div class="meta">
-                    La Nación en Marcha
-                </div>
-
-
-                <a
-                    class="pdf"
-                    href="${archivo.download_url}"
-                    target="_blank"
-                    rel="noopener"
-                >
-                    Abrir PDF
-                </a>
 
             `;
 
-
-            contenedor.appendChild(
-                ensayo
-            );
-
-        });
+        }
 
 
     } catch (error) {
@@ -366,15 +463,13 @@ async function cargarEnsayos() {
                     Error
                 </div>
 
-
                 <h2>
                     No se han podido cargar
                     los ensayos
                 </h2>
 
-
                 <div class="description">
-                    ${error.message}
+                    ${escapeHtml(error.message)}
                 </div>
 
             </div>
@@ -382,6 +477,38 @@ async function cargarEnsayos() {
         `;
 
     }
+
+}
+
+
+function escapeHtml(text) {
+
+    return String(text)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
 }
 
