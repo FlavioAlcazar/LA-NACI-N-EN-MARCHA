@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 
@@ -21,6 +22,10 @@
             font-family: Arial, Helvetica, sans-serif;
         }
 
+        /* =========================
+           CABECERA
+           ========================= */
+
         header {
             background: #111;
             color: #eee;
@@ -35,6 +40,10 @@
             text-transform: uppercase;
             letter-spacing: -1px;
         }
+
+        /* =========================
+           CONTENIDO
+           ========================= */
 
         main {
             max-width: 1000px;
@@ -100,11 +109,19 @@
             gap: 25px;
         }
 
+        /* =========================
+           ARCHIVO
+           ========================= */
+
         .file-box {
             border: 2px dashed #111;
             padding: 25px;
             background: #ddd;
         }
+
+        /* =========================
+           BOTONES
+           ========================= */
 
         button {
             margin-top: 20px;
@@ -124,7 +141,7 @@
         }
 
         /* =========================
-           CAMPO DE SENHA
+           CONTRASEÑA
            ========================= */
 
         .password-container {
@@ -142,10 +159,6 @@
             white-space: nowrap;
         }
 
-        .toggle-password:hover {
-            background: #444;
-        }
-
         /* =========================
            AVISOS
            ========================= */
@@ -159,7 +172,7 @@
         }
 
         /* =========================
-           EDITAR / VISTA PREVIA
+           VISTA PREVIA
            ========================= */
 
         .preview-controls {
@@ -279,6 +292,10 @@
             background: #555;
         }
 
+        /* =========================
+           MÓVIL
+           ========================= */
+
         @media (max-width: 700px) {
 
             .two-columns {
@@ -329,6 +346,7 @@
             Administración
         </h1>
 
+
         <form id="loginForm">
 
             <div class="form-row">
@@ -336,6 +354,7 @@
                 <label for="password">
                     Contraseña
                 </label>
+
 
                 <div class="password-container">
 
@@ -346,6 +365,7 @@
                         autocomplete="current-password"
                         required
                     >
+
 
                     <button
                         type="button"
@@ -358,6 +378,7 @@
                 </div>
 
             </div>
+
 
             <button type="submit">
                 Entrar
@@ -392,7 +413,7 @@
     </div>
 
 
-    <!-- BOTONES -->
+    <!-- CONTROLES -->
 
     <div class="preview-controls">
 
@@ -403,6 +424,7 @@
         >
             Editar
         </button>
+
 
         <button
             type="button"
@@ -425,9 +447,11 @@
             Artículo
         </div>
 
+
         <h1 id="previewTitle">
             Título de la publicación
         </h1>
+
 
         <div
             class="preview-meta"
@@ -436,10 +460,12 @@
             La Nación en Marcha · Fecha
         </div>
 
+
         <div
             class="preview-description"
             id="previewDescription"
         ></div>
+
 
         <div
             class="preview-content"
@@ -447,6 +473,7 @@
         >
             Escribe contenido para ver la vista previa.
         </div>
+
 
         <div
             class="preview-pdf"
@@ -468,6 +495,7 @@
                 Título
             </label>
 
+
             <input
                 type="text"
                 id="title"
@@ -487,6 +515,7 @@
                     Autor
                 </label>
 
+
                 <input
                     type="text"
                     id="author"
@@ -502,6 +531,7 @@
                     Tipo de publicación
                 </label>
 
+
                 <select id="type">
 
                     <option value="articulo">
@@ -516,7 +546,6 @@
 
             </div>
 
-
         </div>
 
 
@@ -525,6 +554,7 @@
             <label for="date">
                 Fecha
             </label>
+
 
             <input
                 type="date"
@@ -540,6 +570,7 @@
                 Introducción / descripción
             </label>
 
+
             <textarea
                 id="description"
                 placeholder="Escribe aquí una breve descripción..."
@@ -554,6 +585,7 @@
                 Contenido
             </label>
 
+
             <textarea
                 id="content"
                 placeholder="Escribe aquí el contenido..."
@@ -564,9 +596,10 @@
 
         <div class="form-row">
 
-            <label>
+            <label for="pdf">
                 PDF
             </label>
+
 
             <div class="file-box">
 
@@ -602,7 +635,6 @@
             Cerrar sesión
         </button>
 
-
     </form>
 
 </main>
@@ -611,7 +643,6 @@
 
 
 <script>
-
 
 /* =========================
    CONFIGURACIÓN
@@ -626,111 +657,58 @@ const WORKER_URL =
    ========================= */
 
 const loginScreen =
-    document.getElementById(
-        "loginScreen"
-    );
-
+    document.getElementById("loginScreen");
 
 const adminContent =
-    document.getElementById(
-        "adminContent"
-    );
-
+    document.getElementById("adminContent");
 
 const loginForm =
-    document.getElementById(
-        "loginForm"
-    );
-
+    document.getElementById("loginForm");
 
 const loginError =
-    document.getElementById(
-        "loginError"
-    );
-
+    document.getElementById("loginError");
 
 const passwordInput =
-    document.getElementById(
-        "password"
-    );
-
+    document.getElementById("password");
 
 const togglePassword =
-    document.getElementById(
-        "togglePassword"
-    );
-
+    document.getElementById("togglePassword");
 
 const form =
-    document.getElementById(
-        "publishForm"
-    );
-
+    document.getElementById("publishForm");
 
 const notice =
-    document.getElementById(
-        "notice"
-    );
-
+    document.getElementById("notice");
 
 const logout =
-    document.getElementById(
-        "logout"
-    );
-
+    document.getElementById("logout");
 
 const editButton =
-    document.getElementById(
-        "editButton"
-    );
-
+    document.getElementById("editButton");
 
 const previewButton =
-    document.getElementById(
-        "previewButton"
-    );
-
+    document.getElementById("previewButton");
 
 const preview =
-    document.getElementById(
-        "preview"
-    );
-
+    document.getElementById("preview");
 
 const previewType =
-    document.getElementById(
-        "previewType"
-    );
-
+    document.getElementById("previewType");
 
 const previewTitle =
-    document.getElementById(
-        "previewTitle"
-    );
-
+    document.getElementById("previewTitle");
 
 const previewMeta =
-    document.getElementById(
-        "previewMeta"
-    );
-
+    document.getElementById("previewMeta");
 
 const previewDescription =
-    document.getElementById(
-        "previewDescription"
-    );
-
+    document.getElementById("previewDescription");
 
 const previewContent =
-    document.getElementById(
-        "previewContent"
-    );
-
+    document.getElementById("previewContent");
 
 const previewPdf =
-    document.getElementById(
-        "previewPdf"
-    );
+    document.getElementById("previewPdf");
 
 
 /* =========================
@@ -741,25 +719,20 @@ togglePassword.addEventListener(
     "click",
     function() {
 
-        if (
-            passwordInput.type === "password"
-        ) {
+        const visible =
+            passwordInput.type === "text";
 
-            passwordInput.type =
-                "text";
 
-            togglePassword.textContent =
-                "🙈 Ocultar";
+        passwordInput.type =
+            visible
+                ? "password"
+                : "text";
 
-        } else {
 
-            passwordInput.type =
-                "password";
-
-            togglePassword.textContent =
-                "👁 Mostrar";
-
-        }
+        togglePassword.textContent =
+            visible
+                ? "👁 Mostrar"
+                : "🙈 Ocultar";
 
     }
 );
@@ -816,8 +789,7 @@ function actualizarVistaPrevia() {
 
 
     const pdfInput =
-        document
-            .getElementById("pdf");
+        document.getElementById("pdf");
 
 
     previewType.textContent =
@@ -952,22 +924,22 @@ previewButton.addEventListener(
     "content",
     "type",
     "pdf"
-].forEach(id => {
+].forEach(function(id) {
 
-    document
-        .getElementById(id)
-        .addEventListener(
-            "input",
-            actualizarVistaPrevia
-        );
+    const elemento =
+        document.getElementById(id);
 
 
-    document
-        .getElementById(id)
-        .addEventListener(
-            "change",
-            actualizarVistaPrevia
-        );
+    elemento.addEventListener(
+        "input",
+        actualizarVistaPrevia
+    );
+
+
+    elemento.addEventListener(
+        "change",
+        actualizarVistaPrevia
+    );
 
 });
 
@@ -1020,34 +992,36 @@ async function comprobarPassword(
             await fetch(
                 WORKER_URL,
                 {
-
-                    method:
-                        "POST",
+                    method: "POST",
 
                     headers: {
-
                         "Content-Type":
                             "application/json",
 
                         "X-Admin-Password":
                             password
-
                     },
 
                     body:
                         JSON.stringify({
                             prueba: true
                         })
-
                 }
             );
 
 
-        if (
-            response.status === 401
-        ) {
+        if (response.status === 401) {
 
             return false;
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "El servidor no pudo comprobar la contraseña."
+            );
 
         }
 
@@ -1057,7 +1031,15 @@ async function comprobarPassword(
 
     } catch (error) {
 
-        return true;
+        console.error(
+            "Error comprobando contraseña:",
+            error
+        );
+
+
+        throw new Error(
+            "No se ha podido conectar con el servidor."
+        );
 
     }
 
@@ -1088,35 +1070,52 @@ loginForm.addEventListener(
         }
 
 
-        const correcta =
-            await comprobarPassword(
+        try {
+
+            const correcta =
+                await comprobarPassword(
+                    password
+                );
+
+
+            if (!correcta) {
+
+                loginError.textContent =
+                    "Contraseña incorrecta.";
+
+                loginError.style.display =
+                    "block";
+
+                passwordInput.focus();
+
+                return;
+
+            }
+
+
+            adminPassword =
+                password;
+
+
+            sessionStorage.setItem(
+                "adminPassword",
                 password
             );
 
 
-        if (!correcta) {
+            mostrarPanel();
+
+
+        } catch (error) {
+
+            loginError.textContent =
+                error.message;
+
 
             loginError.style.display =
                 "block";
 
-            passwordInput.focus();
-
-            return;
-
         }
-
-
-        adminPassword =
-            password;
-
-
-        sessionStorage.setItem(
-            "adminPassword",
-            password
-        );
-
-
-        mostrarPanel();
 
     }
 );
@@ -1222,14 +1221,11 @@ form.addEventListener(
 
         try {
 
-
             /* =========================
                ENSAYO
                ========================= */
 
-            if (
-                tipo === "ensayo"
-            ) {
+            if (tipo === "ensayo") {
 
                 if (!titulo) {
 
@@ -1289,8 +1285,7 @@ form.addEventListener(
                         WORKER_URL,
                         {
 
-                            method:
-                                "POST",
+                            method: "POST",
 
                             headers: {
 
@@ -1305,8 +1300,7 @@ form.addEventListener(
 
                             },
 
-                            body:
-                                archivo
+                            body: archivo
 
                         }
                     );
@@ -1316,9 +1310,7 @@ form.addEventListener(
                     await response.json();
 
 
-                if (
-                    !response.ok
-                ) {
+                if (!response.ok) {
 
                     if (
                         response.status ===
@@ -1343,9 +1335,7 @@ form.addEventListener(
 
                     throw new Error(
                         resultado.mensaje ||
-                        JSON.stringify(
-                            resultado
-                        )
+                        JSON.stringify(resultado)
                     );
 
                 }
@@ -1396,8 +1386,7 @@ form.addEventListener(
                         WORKER_URL,
                         {
 
-                            method:
-                                "POST",
+                            method: "POST",
 
                             headers: {
 
@@ -1434,9 +1423,7 @@ form.addEventListener(
                     await response.json();
 
 
-                if (
-                    !response.ok
-                ) {
+                if (!response.ok) {
 
                     if (
                         response.status ===
@@ -1461,9 +1448,7 @@ form.addEventListener(
 
                     throw new Error(
                         resultado.mensaje ||
-                        JSON.stringify(
-                            resultado
-                        )
+                        JSON.stringify(resultado)
                     );
 
                 }
@@ -1486,6 +1471,12 @@ form.addEventListener(
 
 
         } catch (error) {
+
+            console.error(
+                "Error publicando:",
+                error
+            );
+
 
             notice.textContent =
                 "ERROR: " +
