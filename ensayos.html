@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 
@@ -21,6 +22,8 @@
             font-family: Arial, Helvetica, sans-serif;
         }
 
+        /* CABECERA */
+
         header {
             background: #111;
             color: #eee;
@@ -32,16 +35,17 @@
         }
 
         .logo {
-            font-size: 28px;
+            font-size: clamp(22px, 4vw, 42px);
             font-weight: 900;
             line-height: .85;
             text-transform: uppercase;
-            letter-spacing: -1px;
+            letter-spacing: -2px;
         }
 
         nav {
             display: flex;
             gap: 25px;
+            flex-wrap: wrap;
         }
 
         nav a {
@@ -56,6 +60,8 @@
         nav a:hover {
             color: #aaa;
         }
+
+        /* CONTENIDO */
 
         main {
             max-width: 1200px;
@@ -76,6 +82,8 @@
             letter-spacing: -7px;
             text-transform: uppercase;
         }
+
+        /* ENSAYOS */
 
         .essay {
             border-top: 3px solid #111;
@@ -130,6 +138,20 @@
             background: #555;
         }
 
+        /* ESTADOS */
+
+        .loading,
+        .empty,
+        .error {
+            border-top: 2px solid #111;
+            padding: 30px 0;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 20px;
+            line-height: 1.5;
+        }
+
+        /* PIE */
+
         footer {
             background: #111;
             color: #aaa;
@@ -137,6 +159,8 @@
             font-size: 11px;
             text-transform: uppercase;
         }
+
+        /* MÓVIL */
 
         @media (max-width: 700px) {
 
@@ -147,7 +171,6 @@
             }
 
             nav {
-                flex-wrap: wrap;
                 gap: 15px;
             }
 
@@ -171,6 +194,7 @@
         La Nación<br>
         en Marcha
     </div>
+
 
     <nav>
 
@@ -201,12 +225,8 @@
 
     <div id="ensayos">
 
-        <div class="essay">
-
-            <div class="essay-label">
-                Cargando ensayos...
-            </div>
-
+        <div class="loading">
+            Cargando ensayos...
         </div>
 
     </div>
@@ -240,6 +260,20 @@ async function cargarEnsayos() {
             await fetch(API);
 
 
+        /*
+         * Si la carpeta todavía no existe,
+         * mostramos simplemente que no hay ensayos.
+         */
+
+        if (respuesta.status === 404) {
+
+            mostrarVacio();
+
+            return;
+
+        }
+
+
         if (!respuesta.ok) {
 
             throw new Error(
@@ -254,36 +288,22 @@ async function cargarEnsayos() {
 
 
         /*
-         * Buscamos los archivos JSON.
+         * Buscamos únicamente archivos PDF.
          */
 
-        const metadatos =
+        const ensayos =
             archivos.filter(
                 archivo =>
                     archivo.type === "file" &&
                     archivo.name
                         .toLowerCase()
-                        .endsWith(".json")
+                        .endsWith(".pdf")
             );
 
 
-        if (metadatos.length === 0) {
+        if (ensayos.length === 0) {
 
-            contenedor.innerHTML = `
-
-                <div class="essay">
-
-                    <div class="essay-label">
-                        Próximamente
-                    </div>
-
-                    <h2>
-                        No hay ensayos publicados todavía
-                    </h2>
-
-                </div>
-
-            `;
+            mostrarVacio();
 
             return;
 
@@ -294,70 +314,11 @@ async function cargarEnsayos() {
 
 
         /*
-         * Cargamos cada JSON.
+         * Mostramos los PDF encontrados.
          */
 
-        for (
-            const archivoJSON of metadatos
-        ) {
-
-
-            try {
-
-                const respuestaJSON =
-                    await fetch(
-                        archivoJSON.download_url
-                    );
-
-
-                if (!respuestaJSON.ok) {
-                    continue;
-                }
-
-
-                const datos =
-                    await respuestaJSON.json();
-
-
-                const titulo =
-                    datos.titulo ||
-                    "Ensayo sin título";
-
-
-                const autor =
-                    datos.autor ||
-                    "La Nación en Marcha";
-
-
-                const fecha =
-                    datos.fecha ||
-                    "";
-
-
-                const descripcion =
-                    datos.descripcion ||
-                    "Ensayo publicado en La Nación en Marcha.";
-
-
-                const archivoPDF =
-                    datos.archivo;
-
-
-                if (!archivoPDF) {
-                    continue;
-                }
-
-
-                /*
-                 * URL directa al PDF.
-                 */
-
-                const urlPDF =
-                    "https://raw.githubusercontent.com/" +
-                    "FlavioAlcazar/LA-NACI-N-EN-MARCHA/" +
-                    "main/" +
-                    archivoPDF;
-
+        ensayos.reverse().forEach(
+            archivo => {
 
                 const ensayo =
                     document.createElement(
@@ -367,6 +328,36 @@ async function cargarEnsayos() {
 
                 ensayo.className =
                     "essay";
+
+
+                const nombre =
+                    archivo.name
+                        .replace(
+                            /\.pdf$/i,
+                            ""
+                        )
+                        .replace(
+                            /[-_]+/g,
+                            " "
+                        )
+                        .trim();
+
+
+                const titulo =
+                    nombre ||
+                    "Ensayo";
+
+
+                const urlPDF =
+                    archivo.download_url ||
+                    (
+                        "https://raw.githubusercontent.com/" +
+                        "FlavioAlcazar/LA-NACI-N-EN-MARCHA/" +
+                        "main/ensayos/" +
+                        encodeURIComponent(
+                            archivo.name
+                        )
+                    );
 
 
                 ensayo.innerHTML = `
@@ -382,13 +373,8 @@ async function cargarEnsayos() {
 
 
                     <div class="description">
-                        ${escapeHtml(descripcion)}
-                    </div>
-
-
-                    <div class="meta">
-                        ${escapeHtml(autor)}
-                        ${fecha ? " · " + escapeHtml(fecha) : ""}
+                        Documento publicado en
+                        La Nación en Marcha.
                     </div>
 
 
@@ -408,70 +394,24 @@ async function cargarEnsayos() {
                     ensayo
                 );
 
-
-            } catch (error) {
-
-                console.error(
-                    "Error cargando ensayo:",
-                    error
-                );
-
             }
-
-        }
-
-
-        /*
-         * Si no se pudo mostrar ningún ensayo.
-         */
-
-        if (
-            contenedor.children.length === 0
-        ) {
-
-            contenedor.innerHTML = `
-
-                <div class="essay">
-
-                    <div class="essay-label">
-                        Error
-                    </div>
-
-                    <h2>
-                        No se han podido cargar
-                        los ensayos
-                    </h2>
-
-                    <div class="description">
-                        Los archivos de información
-                        no contienen datos válidos.
-                    </div>
-
-                </div>
-
-            `;
-
-        }
+        );
 
 
     } catch (error) {
 
+        console.error(
+            "Error cargando ensayos:",
+            error
+        );
+
+
         contenedor.innerHTML = `
 
-            <div class="essay">
+            <div class="error">
 
-                <div class="essay-label">
-                    Error
-                </div>
-
-                <h2>
-                    No se han podido cargar
-                    los ensayos
-                </h2>
-
-                <div class="description">
-                    ${escapeHtml(error.message)}
-                </div>
+                No se han podido cargar
+                los ensayos.
 
             </div>
 
@@ -482,9 +422,28 @@ async function cargarEnsayos() {
 }
 
 
-function escapeHtml(text) {
+/* MENSAJE CUANDO NO HAY ENSAYOS */
 
-    return String(text)
+function mostrarVacio() {
+
+    contenedor.innerHTML = `
+
+        <div class="empty">
+
+            Todavía no hay ensayos publicados.
+
+        </div>
+
+    `;
+
+}
+
+
+/* PROTECCIÓN CONTRA HTML */
+
+function escapeHtml(texto) {
+
+    return String(texto)
 
         .replace(
             /&/g,
@@ -522,3 +481,4 @@ cargarEnsayos();
 </body>
 
 </html>
+```
