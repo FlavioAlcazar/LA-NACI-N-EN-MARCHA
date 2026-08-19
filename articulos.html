@@ -22,6 +22,8 @@
             font-family: Arial, Helvetica, sans-serif;
         }
 
+        /* CABECERA */
+
         header {
             background: #111;
             color: #eee;
@@ -33,16 +35,17 @@
         }
 
         .logo {
-            font-size: 28px;
+            font-size: clamp(22px, 4vw, 42px);
             font-weight: 900;
             line-height: .85;
             text-transform: uppercase;
-            letter-spacing: -1px;
+            letter-spacing: -2px;
         }
 
         nav {
             display: flex;
             gap: 25px;
+            flex-wrap: wrap;
         }
 
         nav a {
@@ -55,8 +58,10 @@
         }
 
         nav a:hover {
-            text-decoration: underline;
+            color: #aaa;
         }
+
+        /* CONTENIDO */
 
         main {
             max-width: 1200px;
@@ -78,6 +83,8 @@
             text-transform: uppercase;
         }
 
+        /* ARTÍCULOS */
+
         .article {
             display: grid;
             grid-template-columns: 160px 1fr;
@@ -95,7 +102,7 @@
 
         .article h2 {
             margin: 0 0 15px;
-            font-family: Georgia, serif;
+            font-family: Georgia, "Times New Roman", serif;
             font-size: 42px;
             line-height: 1;
         }
@@ -112,7 +119,7 @@
         .article p {
             max-width: 700px;
             margin: 0 0 20px;
-            font-family: Georgia, serif;
+            font-family: Georgia, "Times New Roman", serif;
             font-size: 18px;
             line-height: 1.5;
         }
@@ -123,14 +130,19 @@
             text-transform: uppercase;
         }
 
+        /* ESTADOS */
+
         .loading,
         .empty,
         .error {
             border-top: 2px solid #111;
             padding: 30px 0;
-            font-family: Georgia, serif;
+            font-family: Georgia, "Times New Roman", serif;
             font-size: 20px;
+            line-height: 1.5;
         }
+
+        /* PIE */
 
         footer {
             background: #111;
@@ -139,6 +151,8 @@
             font-size: 11px;
             text-transform: uppercase;
         }
+
+        /* MÓVIL */
 
         @media (max-width: 700px) {
 
@@ -149,7 +163,6 @@
             }
 
             nav {
-                flex-wrap: wrap;
                 gap: 15px;
             }
 
@@ -178,6 +191,7 @@
         La Nación<br>
         en Marcha
     </div>
+
 
     <nav>
 
@@ -243,10 +257,24 @@ async function cargarArticulos() {
             await fetch(API);
 
 
+        /*
+         * Si la carpeta todavía no existe,
+         * simplemente mostramos que no hay publicaciones.
+         */
+
+        if (respuesta.status === 404) {
+
+            mostrarVacio();
+
+            return;
+
+        }
+
+
         if (!respuesta.ok) {
 
             throw new Error(
-                "No se pudo acceder a la carpeta de artículos."
+                "No se pudo acceder a los artículos."
             );
 
         }
@@ -262,21 +290,13 @@ async function cargarArticulos() {
                     archivo.type === "file" &&
                     archivo.name
                         .toLowerCase()
-                        .endsWith(".html") &&
-                    archivo.name
-                        .toLowerCase() !== "pdf.html"
+                        .endsWith(".html")
             );
 
 
         if (articulos.length === 0) {
 
-            contenedor.innerHTML = `
-
-                <div class="empty">
-                    Todavía no hay artículos publicados.
-                </div>
-
-            `;
+            mostrarVacio();
 
             return;
 
@@ -286,9 +306,7 @@ async function cargarArticulos() {
         const datos = [];
 
 
-        for (
-            const archivo of articulos
-        ) {
+        for (const archivo of articulos) {
 
             try {
 
@@ -299,7 +317,9 @@ async function cargarArticulos() {
 
 
                 if (!respuestaArticulo.ok) {
+
                     continue;
+
                 }
 
 
@@ -308,11 +328,10 @@ async function cargarArticulos() {
 
 
                 const documento =
-                    new DOMParser()
-                        .parseFromString(
-                            html,
-                            "text/html"
-                        );
+                    new DOMParser().parseFromString(
+                        html,
+                        "text/html"
+                    );
 
 
                 const titulo =
@@ -327,9 +346,10 @@ async function cargarArticulos() {
                             ""
                         )
                         .replace(
-                            /-/g,
+                            /[-_]+/g,
                             " "
-                        );
+                        )
+                        .trim();
 
 
                 const meta =
@@ -391,13 +411,7 @@ async function cargarArticulos() {
 
         if (datos.length === 0) {
 
-            contenedor.innerHTML = `
-
-                <div class="empty">
-                    Todavía no hay artículos publicados.
-                </div>
-
-            `;
+            mostrarVacio();
 
             return;
 
@@ -407,80 +421,82 @@ async function cargarArticulos() {
         contenedor.innerHTML = "";
 
 
-        datos.reverse()
-            .forEach(
-                articulo => {
+        datos.reverse().forEach(
+            articulo => {
 
-                    const elemento =
-                        document
-                            .createElement(
-                                "article"
-                            );
-
-
-                    elemento.className =
-                        "article";
-
-
-                    /*
-                     * Enlace directo al archivo
-                     * dentro de la carpeta articulos.
-                     */
-
-                    const enlace =
-                        "articulos/" +
-                        encodeURIComponent(
-                            articulo.archivo
-                        );
-
-
-                    elemento.innerHTML = `
-
-                        <div class="category">
-                            Artículo
-                        </div>
-
-                        <div>
-
-                            <h2>
-
-                                <a
-                                    href="${enlace}"
-                                >
-                                    ${escaparHTML(
-                                        articulo.titulo
-                                    )}
-                                </a>
-
-                            </h2>
-
-
-                            <p>
-                                ${escaparHTML(
-                                    articulo.descripcion
-                                )}
-                            </p>
-
-
-                            <div class="meta">
-
-                                ${escaparHTML(
-                                    articulo.meta
-                                )}
-
-                            </div>
-
-                        </div>
-
-                    `;
-
-
-                    contenedor.appendChild(
-                        elemento
+                const elemento =
+                    document.createElement(
+                        "article"
                     );
 
-                }
-            );
+
+                elemento.className =
+                    "article";
+
+
+                const enlace =
+                    "articulos/" +
+                    encodeURIComponent(
+                        articulo.archivo
+                    );
+
+
+                elemento.innerHTML = `
+
+                    <div class="category">
+                        Artículo
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+
+                            <a href="${enlace}">
+                                ${escaparHTML(
+                                    articulo.titulo
+                                )}
+                            </a>
+
+                        </h2>
+
+
+                        ${
+                            articulo.descripcion
+                                ? `
+                                    <p>
+                                        ${escaparHTML(
+                                            articulo.descripcion
+                                        )}
+                                    </p>
+                                `
+                                : ""
+                        }
+
+
+                        ${
+                            articulo.meta
+                                ? `
+                                    <div class="meta">
+                                        ${escaparHTML(
+                                            articulo.meta
+                                        )}
+                                    </div>
+                                `
+                                : ""
+                        }
+
+                    </div>
+
+                `;
+
+
+                contenedor.appendChild(
+                    elemento
+                );
+
+            }
+        );
 
 
     } catch (error) {
@@ -503,6 +519,25 @@ async function cargarArticulos() {
 
 }
 
+
+/* MENSAJE CUANDO NO HAY ARTÍCULOS */
+
+function mostrarVacio() {
+
+    contenedor.innerHTML = `
+
+        <div class="empty">
+
+            Todavía no hay artículos publicados.
+
+        </div>
+
+    `;
+
+}
+
+
+/* PROTECCIÓN CONTRA HTML NO DESEADO */
 
 function escaparHTML(texto) {
 
