@@ -26,7 +26,9 @@
             font-family: Arial, Helvetica, sans-serif;
         }
 
-        /* CABECERA */
+        /* =========================
+           CABECERA
+           ========================= */
 
         header {
             background: #111;
@@ -65,7 +67,9 @@
             color: #aaa;
         }
 
-        /* PORTADA */
+        /* =========================
+           PORTADA
+           ========================= */
 
         .hero {
             min-height: 70vh;
@@ -140,7 +144,9 @@
             margin: 0;
         }
 
-        /* CONTENIDO */
+        /* =========================
+           CONTENIDO
+           ========================= */
 
         main {
             max-width: 1400px;
@@ -172,9 +178,80 @@
             text-transform: uppercase;
         }
 
-        /* ARCHIVO VACÍO */
+        /* =========================
+           PUBLICACIONES
+           ========================= */
 
-        .empty {
+        .publications {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 35px;
+        }
+
+        .publication {
+            border-top: 3px solid #111;
+            padding: 25px 0 35px;
+        }
+
+        .publication-type {
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .publication h3 {
+            margin: 0 0 15px;
+            font-size: clamp(28px, 4vw, 48px);
+            line-height: .95;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+        }
+
+        .publication h3 a {
+            color: #111;
+            text-decoration: none;
+        }
+
+        .publication h3 a:hover {
+            text-decoration: underline;
+        }
+
+        .publication-description {
+            font-family: Georgia, serif;
+            font-size: 17px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            max-width: 650px;
+        }
+
+        .publication-meta {
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .publication-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background: #111;
+            color: #eee;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .publication-link:hover {
+            background: #555;
+        }
+
+        .empty,
+        .loading,
+        .error {
             border-top: 2px solid #111;
             padding: 35px 0;
             font-family: Georgia, serif;
@@ -182,7 +259,9 @@
             line-height: 1.5;
         }
 
-        /* FRASE */
+        /* =========================
+           FRASE
+           ========================= */
 
         .manifesto {
             background: #111;
@@ -201,7 +280,9 @@
             text-transform: uppercase;
         }
 
-        /* FOOTER */
+        /* =========================
+           FOOTER
+           ========================= */
 
         footer {
             background: #111;
@@ -212,7 +293,9 @@
             text-transform: uppercase;
         }
 
-        /* MÓVIL */
+        /* =========================
+           MÓVIL
+           ========================= */
 
         @media (max-width: 800px) {
 
@@ -236,6 +319,10 @@
 
             .hero-block {
                 min-height: 300px;
+            }
+
+            .publications {
+                grid-template-columns: 1fr;
             }
 
         }
@@ -332,11 +419,14 @@
         </div>
 
 
-        <div class="empty">
+        <div
+            id="publications"
+            class="publications"
+        >
 
-            Todavía no hay publicaciones.
-            Los próximos artículos y ensayos
-            aparecerán aquí.
+            <div class="loading">
+                Cargando publicaciones...
+            </div>
 
         </div>
 
@@ -363,7 +453,593 @@
 </footer>
 
 
+<script>
+
+/* =========================
+   GITHUB
+   ========================= */
+
+const API_ARTICULOS =
+    "https://api.github.com/repos/FlavioAlcazar/LA-NACI-N-EN-MARCHA/contents/articulos";
+
+
+const API_ENSAYOS =
+    "https://api.github.com/repos/FlavioAlcazar/LA-NACI-N-EN-MARCHA/contents/ensayos";
+
+
+const contenedor =
+    document.getElementById(
+        "publications"
+    );
+
+
+/* =========================
+   CARGAR PUBLICACIONES
+   ========================= */
+
+async function cargarPublicaciones() {
+
+    try {
+
+        const publicaciones = [];
+
+
+        /* =========================
+           ARTÍCULOS
+           ========================= */
+
+        try {
+
+            const respuestaArticulos =
+                await fetch(
+                    API_ARTICULOS
+                );
+
+
+            if (
+                respuestaArticulos.ok
+            ) {
+
+                const archivos =
+                    await respuestaArticulos.json();
+
+
+                const articulos =
+                    archivos.filter(
+                        archivo =>
+                            archivo.type === "file" &&
+                            archivo.name
+                                .toLowerCase()
+                                .endsWith(".html") &&
+                            archivo.name
+                                .toLowerCase() !==
+                                "pdf.html"
+                    );
+
+
+                for (
+                    const archivo of articulos
+                ) {
+
+                    try {
+
+                        const respuesta =
+                            await fetch(
+                                archivo.download_url
+                            );
+
+
+                        if (
+                            !respuesta.ok
+                        ) {
+                            continue;
+                        }
+
+
+                        const html =
+                            await respuesta.text();
+
+
+                        const documento =
+                            new DOMParser()
+                                .parseFromString(
+                                    html,
+                                    "text/html"
+                                );
+
+
+                        const titulo =
+                            documento
+                                .querySelector("h1")
+                                ?.textContent
+                                .trim()
+                            ||
+                            archivo.name
+                                .replace(
+                                    /\.html$/i,
+                                    ""
+                                )
+                                .replace(
+                                    /-/g,
+                                    " "
+                                );
+
+
+                        const meta =
+                            documento
+                                .querySelector(".meta")
+                                ?.textContent
+                                .trim()
+                            ||
+                            "";
+
+
+                        const contenido =
+                            documento
+                                .querySelector(".content")
+                                ?.textContent
+                                .trim()
+                            ||
+                            "";
+
+
+                        const fecha =
+                            extraerFecha(
+                                meta
+                            );
+
+
+                        const descripcion =
+                            contenido.length > 180
+                                ? contenido.substring(
+                                    0,
+                                    180
+                                ) + "..."
+                                : contenido;
+
+
+                        publicaciones.push({
+
+                            tipo:
+                                "Artículo",
+
+                            titulo:
+                                titulo,
+
+                            descripcion:
+                                descripcion,
+
+                            meta:
+                                meta,
+
+                            fecha:
+                                fecha,
+
+                            enlace:
+                                "articulos/" +
+                                encodeURIComponent(
+                                    archivo.name
+                                )
+
+                        });
+
+
+                    } catch (error) {
+
+                        console.error(
+                            "Error leyendo artículo:",
+                            archivo.name,
+                            error
+                        );
+
+                    }
+
+                }
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Error accediendo a artículos:",
+                error
+            );
+
+        }
+
+
+        /* =========================
+           ENSAYOS
+           ========================= */
+
+        try {
+
+            const respuestaEnsayos =
+                await fetch(
+                    API_ENSAYOS
+                );
+
+
+            if (
+                respuestaEnsayos.ok
+            ) {
+
+                const archivos =
+                    await respuestaEnsayos.json();
+
+
+                const metadatos =
+                    archivos.filter(
+                        archivo =>
+                            archivo.type === "file" &&
+                            archivo.name
+                                .toLowerCase()
+                                .endsWith(".json")
+                    );
+
+
+                for (
+                    const archivoJSON of metadatos
+                ) {
+
+                    try {
+
+                        const respuesta =
+                            await fetch(
+                                archivoJSON.download_url
+                            );
+
+
+                        if (
+                            !respuesta.ok
+                        ) {
+                            continue;
+                        }
+
+
+                        const datos =
+                            await respuesta.json();
+
+
+                        if (
+                            !datos.archivo
+                        ) {
+                            continue;
+                        }
+
+
+                        publicaciones.push({
+
+                            tipo:
+                                "Ensayo",
+
+                            titulo:
+                                datos.titulo ||
+                                "Ensayo sin título",
+
+                            descripcion:
+                                datos.descripcion ||
+                                "Ensayo publicado en La Nación en Marcha.",
+
+                            meta:
+                                (
+                                    datos.autor ||
+                                    "La Nación en Marcha"
+                                ) +
+                                (
+                                    datos.fecha
+                                        ? " · " +
+                                          datos.fecha
+                                        : ""
+                                ),
+
+                            fecha:
+                                datos.fecha ||
+                                "",
+
+                            enlace:
+                                "https://raw.githubusercontent.com/" +
+                                "FlavioAlcazar/LA-NACI-N-EN-MARCHA/" +
+                                "main/" +
+                                datos.archivo
+
+                        });
+
+
+                    } catch (error) {
+
+                        console.error(
+                            "Error leyendo ensayo:",
+                            archivoJSON.name,
+                            error
+                        );
+
+                    }
+
+                }
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Error accediendo a ensayos:",
+                error
+            );
+
+        }
+
+
+        /* =========================
+           ORDENAR
+           ========================= */
+
+        publicaciones.sort(
+            (a, b) => {
+
+                const fechaA =
+                    a.fecha || "";
+
+                const fechaB =
+                    b.fecha || "";
+
+                return fechaB.localeCompare(
+                    fechaA
+                );
+
+            }
+        );
+
+
+        /* =========================
+           MOSTRAR
+           ========================= */
+
+        if (
+            publicaciones.length === 0
+        ) {
+
+            contenedor.innerHTML = `
+
+                <div class="empty">
+
+                    Todavía no hay publicaciones.
+                    Los próximos artículos y ensayos
+                    aparecerán aquí.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        /*
+         * Mostramos únicamente las
+         * seis publicaciones más recientes.
+         */
+
+        const ultimas =
+            publicaciones.slice(
+                0,
+                6
+            );
+
+
+        contenedor.innerHTML = "";
+
+
+        ultimas.forEach(
+            publicacion => {
+
+                const elemento =
+                    document.createElement(
+                        "article"
+                    );
+
+
+                elemento.className =
+                    "publication";
+
+
+                elemento.innerHTML = `
+
+                    <div class="publication-type">
+                        ${escapeHtml(
+                            publicacion.tipo
+                        )}
+                    </div>
+
+
+                    <h3>
+
+                        <a
+                            href="${escapeAttribute(
+                                publicacion.enlace
+                            )}"
+                            ${publicacion.tipo === "Ensayo"
+                                ? 'target="_blank" rel="noopener"'
+                                : ""}
+                        >
+                            ${escapeHtml(
+                                publicacion.titulo
+                            )}
+                        </a>
+
+                    </h3>
+
+
+                    <div class="publication-description">
+
+                        ${escapeHtml(
+                            publicacion.descripcion
+                        )}
+
+                    </div>
+
+
+                    <div class="publication-meta">
+
+                        ${escapeHtml(
+                            publicacion.meta
+                        )}
+
+                    </div>
+
+
+                    <a
+                        class="publication-link"
+                        href="${escapeAttribute(
+                            publicacion.enlace
+                        )}"
+                        ${publicacion.tipo === "Ensayo"
+                            ? 'target="_blank" rel="noopener"'
+                            : ""}
+                    >
+
+                        ${publicacion.tipo === "Ensayo"
+                            ? "Abrir PDF"
+                            : "Leer artículo"}
+
+                    </a>
+
+                `;
+
+
+                contenedor.appendChild(
+                    elemento
+                );
+
+            }
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Error cargando publicaciones:",
+            error
+        );
+
+
+        contenedor.innerHTML = `
+
+            <div class="error">
+
+                No se han podido cargar
+                las publicaciones.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =========================
+   EXTRAER FECHA
+   ========================= */
+
+function extraerFecha(
+    texto
+) {
+
+    if (!texto) {
+        return "";
+    }
+
+
+    const coincidencia =
+        texto.match(
+            /\d{4}-\d{2}-\d{2}/
+        );
+
+
+    return coincidencia
+        ? coincidencia[0]
+        : "";
+
+}
+
+
+/* =========================
+   ESCAPAR HTML
+   ========================= */
+
+function escapeHtml(
+    texto
+) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.textContent =
+        texto || "";
+
+
+    return div.innerHTML;
+
+}
+
+
+/* =========================
+   ESCAPAR ATRIBUTOS
+   ========================= */
+
+function escapeAttribute(
+    texto
+) {
+
+    return String(
+        texto || ""
+    )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        );
+
+}
+
+
+/* =========================
+   INICIAR
+   ========================= */
+
+cargarPublicaciones();
+
+</script>
+
+
 </body>
 
 </html>
 ```
+
+Con este `index.html`, cuando publiques desde `admin.html`:
+
+* **Artículo** → aparecerá automáticamente en “Últimos textos”.
+* **Ensayo** → aparecerá automáticamente usando el `.json` y enlazará al PDF.
+* Se ordenarán por fecha, de más reciente a más antiguo.
+* Mostrará como máximo los **6 últimos**.
+* Si todavía no hay nada, seguirá apareciendo el mensaje de archivo vacío.
+
+**Siguiente:** después de sustituir este `index.html`, pásame **`articulos.html`** y hacemos exactamente lo mismo: comprobar que encaja con el Worker que ya tienes y te devuelvo el código bueno.
