@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 
@@ -21,6 +22,8 @@
             font-family: Arial, Helvetica, sans-serif;
         }
 
+        /* CABECERA */
+
         header {
             background: #111;
             color: #eee;
@@ -32,11 +35,11 @@
         }
 
         .logo {
-            font-size: 28px;
+            font-size: clamp(22px, 4vw, 42px);
             font-weight: 900;
             line-height: .85;
             text-transform: uppercase;
-            letter-spacing: -1px;
+            letter-spacing: -2px;
         }
 
         nav {
@@ -53,6 +56,12 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
+
+        nav a:hover {
+            color: #aaa;
+        }
+
+        /* CONTENIDO */
 
         main {
             max-width: 1200px;
@@ -76,11 +85,13 @@
 
         .intro {
             max-width: 700px;
-            font-family: Georgia, serif;
+            font-family: Georgia, "Times New Roman", serif;
             font-size: 22px;
             line-height: 1.5;
             margin-bottom: 70px;
         }
+
+        /* TEMAS */
 
         .topics {
             display: grid;
@@ -102,11 +113,13 @@
 
         .topic p {
             margin: 0;
-            font-family: Georgia, serif;
+            font-family: Georgia, "Times New Roman", serif;
             font-size: 17px;
             line-height: 1.5;
             color: #444;
         }
+
+        /* PIE */
 
         footer {
             background: #111;
@@ -116,12 +129,18 @@
             text-transform: uppercase;
         }
 
+        /* MÓVIL */
+
         @media (max-width: 700px) {
 
             header {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 20px;
+            }
+
+            nav {
+                gap: 15px;
             }
 
             .topics {
@@ -145,20 +164,24 @@
         en Marcha
     </div>
 
+
     <nav>
+
         <a href="index.html">Inicio</a>
         <a href="articulos.html">Artículos</a>
         <a href="ensayos.html">Ensayos</a>
         <a href="temas.html">Temas</a>
-        <a href="#">Proyecto</a>
-        <a href="#">Contacto</a
+        <a href="proyecto.html">Proyecto</a>
+        <a href="contacto.html">Contacto</a>
         <a href="admin.html">Administración</a>
+
     </nav>
 
 </header>
 
 
 <main>
+
 
     <div class="page-title">
 
@@ -180,7 +203,6 @@
 
     <section class="topics">
 
-
         <article class="topic">
 
             <h2>
@@ -188,8 +210,8 @@
             </h2>
 
             <p>
-                Aquí aparecerán los temas que vayamos
-                desarrollando a través de artículos y ensayos.
+                Esta sección se irá desarrollando
+                a medida que publiquemos nuevos contenidos.
             </p>
 
         </article>
@@ -202,12 +224,11 @@
             </h2>
 
             <p>
-                Esta sección irá creciendo a medida que
-                publiquemos nuevos contenidos.
+                Aquí podremos organizar posteriormente
+                los artículos y ensayos por temas.
             </p>
 
         </article>
-
 
     </section>
 
@@ -225,3 +246,4 @@
 </body>
 
 </html>
+```
