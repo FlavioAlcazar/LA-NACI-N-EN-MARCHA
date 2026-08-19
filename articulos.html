@@ -22,7 +22,9 @@
             font-family: Arial, Helvetica, sans-serif;
         }
 
-        /* CABECERA */
+        /* =========================
+           CABECERA
+           ========================= */
 
         header {
             background: #111;
@@ -61,7 +63,9 @@
             color: #aaa;
         }
 
-        /* CONTENIDO */
+        /* =========================
+           CONTENIDO
+           ========================= */
 
         main {
             max-width: 1200px;
@@ -83,7 +87,9 @@
             text-transform: uppercase;
         }
 
-        /* ARTÍCULOS */
+        /* =========================
+           ARTÍCULOS
+           ========================= */
 
         .article {
             display: grid;
@@ -103,8 +109,9 @@
         .article h2 {
             margin: 0 0 15px;
             font-family: Georgia, "Times New Roman", serif;
-            font-size: 42px;
+            font-size: clamp(30px, 5vw, 50px);
             line-height: 1;
+            letter-spacing: -1px;
         }
 
         .article h2 a {
@@ -130,7 +137,9 @@
             text-transform: uppercase;
         }
 
-        /* ESTADOS */
+        /* =========================
+           ESTADOS
+           ========================= */
 
         .loading,
         .empty,
@@ -142,7 +151,9 @@
             line-height: 1.5;
         }
 
-        /* PIE */
+        /* =========================
+           PIE
+           ========================= */
 
         footer {
             background: #111;
@@ -152,7 +163,9 @@
             text-transform: uppercase;
         }
 
-        /* MÓVIL */
+        /* =========================
+           MÓVIL
+           ========================= */
 
         @media (max-width: 700px) {
 
@@ -169,10 +182,6 @@
             .article {
                 grid-template-columns: 1fr;
                 gap: 15px;
-            }
-
-            .article h2 {
-                font-size: 32px;
             }
 
         }
@@ -241,13 +250,23 @@
 
 <script>
 
-const contenedor =
-    document.getElementById("articles");
-
+/* =========================
+   CONFIGURACIÓN
+   ========================= */
 
 const API =
     "https://api.github.com/repos/FlavioAlcazar/LA-NACI-N-EN-MARCHA/contents/articulos";
 
+
+const contenedor =
+    document.getElementById(
+        "articles"
+    );
+
+
+/* =========================
+   CARGAR ARTÍCULOS
+   ========================= */
 
 async function cargarArticulos() {
 
@@ -257,12 +276,9 @@ async function cargarArticulos() {
             await fetch(API);
 
 
-        /*
-         * Si la carpeta todavía no existe,
-         * simplemente mostramos que no hay publicaciones.
-         */
-
-        if (respuesta.status === 404) {
+        if (
+            respuesta.status === 404
+        ) {
 
             mostrarVacio();
 
@@ -271,7 +287,9 @@ async function cargarArticulos() {
         }
 
 
-        if (!respuesta.ok) {
+        if (
+            !respuesta.ok
+        ) {
 
             throw new Error(
                 "No se pudo acceder a los artículos."
@@ -284,7 +302,13 @@ async function cargarArticulos() {
             await respuesta.json();
 
 
-        const articulos =
+        /*
+         * El Worker publica los artículos
+         * como archivos HTML dentro de
+         * /articulos.
+         */
+
+        const archivosHTML =
             archivos.filter(
                 archivo =>
                     archivo.type === "file" &&
@@ -294,7 +318,9 @@ async function cargarArticulos() {
             );
 
 
-        if (articulos.length === 0) {
+        if (
+            archivosHTML.length === 0
+        ) {
 
             mostrarVacio();
 
@@ -303,10 +329,16 @@ async function cargarArticulos() {
         }
 
 
-        const datos = [];
+        const articulos = [];
 
 
-        for (const archivo of articulos) {
+        /* =========================
+           LEER CADA ARTÍCULO
+           ========================= */
+
+        for (
+            const archivo of archivosHTML
+        ) {
 
             try {
 
@@ -316,7 +348,9 @@ async function cargarArticulos() {
                     );
 
 
-                if (!respuestaArticulo.ok) {
+                if (
+                    !respuestaArticulo.ok
+                ) {
 
                     continue;
 
@@ -328,10 +362,11 @@ async function cargarArticulos() {
 
 
                 const documento =
-                    new DOMParser().parseFromString(
-                        html,
-                        "text/html"
-                    );
+                    new DOMParser()
+                        .parseFromString(
+                            html,
+                            "text/html"
+                        );
 
 
                 const titulo =
@@ -348,8 +383,7 @@ async function cargarArticulos() {
                         .replace(
                             /[-_]+/g,
                             " "
-                        )
-                        .trim();
+                        );
 
 
                 const meta =
@@ -370,6 +404,22 @@ async function cargarArticulos() {
                     "";
 
 
+                /*
+                 * Extraemos la fecha del
+                 * bloque .meta.
+                 */
+
+                const fecha =
+                    extraerFecha(
+                        meta
+                    );
+
+
+                /*
+                 * Generamos una descripción
+                 * automática a partir del contenido.
+                 */
+
                 const descripcion =
                     contenido.length > 220
                         ? contenido.substring(
@@ -379,7 +429,7 @@ async function cargarArticulos() {
                         : contenido;
 
 
-                datos.push({
+                articulos.push({
 
                     archivo:
                         archivo.name,
@@ -391,7 +441,10 @@ async function cargarArticulos() {
                         meta,
 
                     descripcion:
-                        descripcion
+                        descripcion,
+
+                    fecha:
+                        fecha
 
                 });
 
@@ -399,7 +452,7 @@ async function cargarArticulos() {
             } catch (error) {
 
                 console.error(
-                    "No se pudo leer:",
+                    "No se pudo leer el artículo:",
                     archivo.name,
                     error
                 );
@@ -409,7 +462,9 @@ async function cargarArticulos() {
         }
 
 
-        if (datos.length === 0) {
+        if (
+            articulos.length === 0
+        ) {
 
             mostrarVacio();
 
@@ -418,10 +473,31 @@ async function cargarArticulos() {
         }
 
 
+        /* =========================
+           ORDENAR POR FECHA
+           ========================= */
+
+        articulos.sort(
+            (a, b) => {
+
+                return (
+                    b.fecha || ""
+                ).localeCompare(
+                    a.fecha || ""
+                );
+
+            }
+        );
+
+
+        /* =========================
+           MOSTRAR
+           ========================= */
+
         contenedor.innerHTML = "";
 
 
-        datos.reverse().forEach(
+        articulos.forEach(
             articulo => {
 
                 const elemento =
@@ -434,6 +510,12 @@ async function cargarArticulos() {
                     "article";
 
 
+                /*
+                 * Los artículos generados
+                 * por el Worker viven dentro
+                 * de la carpeta /articulos.
+                 */
+
                 const enlace =
                     "articulos/" +
                     encodeURIComponent(
@@ -444,7 +526,9 @@ async function cargarArticulos() {
                 elemento.innerHTML = `
 
                     <div class="category">
+
                         Artículo
+
                     </div>
 
 
@@ -452,10 +536,16 @@ async function cargarArticulos() {
 
                         <h2>
 
-                            <a href="${enlace}">
+                            <a
+                                href="${escaparAtributo(
+                                    enlace
+                                )}"
+                            >
+
                                 ${escaparHTML(
                                     articulo.titulo
                                 )}
+
                             </a>
 
                         </h2>
@@ -464,11 +554,15 @@ async function cargarArticulos() {
                         ${
                             articulo.descripcion
                                 ? `
+
                                     <p>
+
                                         ${escaparHTML(
                                             articulo.descripcion
                                         )}
+
                                     </p>
+
                                 `
                                 : ""
                         }
@@ -477,11 +571,15 @@ async function cargarArticulos() {
                         ${
                             articulo.meta
                                 ? `
+
                                     <div class="meta">
+
                                         ${escaparHTML(
                                             articulo.meta
                                         )}
+
                                     </div>
+
                                 `
                                 : ""
                         }
@@ -501,7 +599,10 @@ async function cargarArticulos() {
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Error cargando artículos:",
+            error
+        );
 
 
         contenedor.innerHTML = `
@@ -520,7 +621,9 @@ async function cargarArticulos() {
 }
 
 
-/* MENSAJE CUANDO NO HAY ARTÍCULOS */
+/* =========================
+   SIN ARTÍCULOS
+   ========================= */
 
 function mostrarVacio() {
 
@@ -537,9 +640,43 @@ function mostrarVacio() {
 }
 
 
-/* PROTECCIÓN CONTRA HTML NO DESEADO */
+/* =========================
+   EXTRAER FECHA
+   ========================= */
 
-function escaparHTML(texto) {
+function extraerFecha(
+    texto
+) {
+
+    if (
+        !texto
+    ) {
+
+        return "";
+
+    }
+
+
+    const coincidencia =
+        texto.match(
+            /\d{4}-\d{2}-\d{2}/
+        );
+
+
+    return coincidencia
+        ? coincidencia[0]
+        : "";
+
+}
+
+
+/* =========================
+   ESCAPAR HTML
+   ========================= */
+
+function escaparHTML(
+    texto
+) {
 
     const div =
         document.createElement(
@@ -548,13 +685,48 @@ function escaparHTML(texto) {
 
 
     div.textContent =
-        texto;
+        texto || "";
 
 
     return div.innerHTML;
 
 }
 
+
+/* =========================
+   ESCAPAR ATRIBUTOS
+   ========================= */
+
+function escaparAtributo(
+    texto
+) {
+
+    return String(
+        texto || ""
+    )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        );
+
+}
+
+
+/* =========================
+   INICIAR
+   ========================= */
 
 cargarArticulos();
 
