@@ -1,5 +1,3 @@
-# proyecto.html
-
 ```html
 <!DOCTYPE html>
 <html lang="es">
@@ -24,6 +22,8 @@
             font-family: Arial, Helvetica, sans-serif;
         }
 
+        /* CABECERA */
+
         header {
             background: #111;
             color: #eee;
@@ -35,11 +35,11 @@
         }
 
         .logo {
-            font-size: 28px;
+            font-size: clamp(22px, 4vw, 42px);
             font-weight: 900;
             line-height: .85;
             text-transform: uppercase;
-            letter-spacing: -1px;
+            letter-spacing: -2px;
         }
 
         nav {
@@ -60,6 +60,8 @@
         nav a:hover {
             color: #aaa;
         }
+
+        /* CONTENIDO */
 
         main {
             max-width: 1200px;
@@ -92,6 +94,8 @@
             margin: 0 0 30px;
         }
 
+        /* PIE */
+
         footer {
             background: #111;
             color: #aaa;
@@ -99,6 +103,8 @@
             font-size: 11px;
             text-transform: uppercase;
         }
+
+        /* MÓVIL */
 
         @media (max-width: 700px) {
 
@@ -129,22 +135,24 @@
         en Marcha
     </div>
 
+
     <nav>
 
-    <a href="/LA-NACI-N-EN-MARCHA/index.html">Inicio</a>
-    <a href="/LA-NACI-N-EN-MARCHA/articulos.html">Artículos</a>
-    <a href="/LA-NACI-N-EN-MARCHA/ensayos.html">Ensayos</a>
-    <a href="/LA-NACI-N-EN-MARCHA/temas.html">Temas</a>
-    <a href="/LA-NACI-N-EN-MARCHA/proyecto.html">Proyecto</a>
-    <a href="/LA-NACI-N-EN-MARCHA/contacto.html">Contacto</a>
-    <a href="/LA-NACI-N-EN-MARCHA/admin.html">Administración</a>
+        <a href="index.html">Inicio</a>
+        <a href="articulos.html">Artículos</a>
+        <a href="ensayos.html">Ensayos</a>
+        <a href="temas.html">Temas</a>
+        <a href="proyecto.html">Proyecto</a>
+        <a href="contacto.html">Contacto</a>
+        <a href="admin.html">Administración</a>
 
-</nav>
+    </nav>
 
 </header>
 
 
 <main>
+
 
     <div class="page-title">
 
@@ -162,6 +170,7 @@
             reflexión y publicación de artículos y ensayos.
         </p>
 
+
         <p>
             Este proyecto pretende reunir y desarrollar
             diferentes ideas, análisis y propuestas a través
@@ -169,6 +178,7 @@
         </p>
 
     </div>
+
 
 </main>
 
