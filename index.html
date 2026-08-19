@@ -1,7 +1,9 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -47,6 +49,7 @@
         nav {
             display: flex;
             gap: 25px;
+            flex-wrap: wrap;
         }
 
         nav a {
@@ -72,7 +75,7 @@
         }
 
         .hero-title {
-            background: #bdbdbb;
+            background: #bdbdbd;
             padding: 8%;
             display: flex;
             flex-direction: column;
@@ -169,56 +172,14 @@
             text-transform: uppercase;
         }
 
-        /* ARTÍCULOS */
+        /* ARCHIVO VACÍO */
 
-        .articles {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 30px;
-        }
-
-        article {
+        .empty {
             border-top: 2px solid #111;
-            padding-top: 15px;
-        }
-
-        article.featured {
-            grid-row: span 2;
-        }
-
-        .category {
-            font-size: 11px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
-
-        article h3 {
+            padding: 35px 0;
             font-family: Georgia, serif;
-            font-size: 28px;
-            line-height: 1;
-            margin: 12px 0;
-        }
-
-        article.featured h3 {
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 50px;
-            line-height: .92;
-            text-transform: uppercase;
-            letter-spacing: -3px;
-        }
-
-        article p {
-            font-family: Georgia, serif;
-            font-size: 17px;
+            font-size: 20px;
             line-height: 1.5;
-            color: #333;
-        }
-
-        .date {
-            font-size: 11px;
-            text-transform: uppercase;
-            margin-top: 25px;
         }
 
         /* FRASE */
@@ -262,7 +223,6 @@
             }
 
             nav {
-                flex-wrap: wrap;
                 gap: 15px;
             }
 
@@ -278,52 +238,41 @@
                 min-height: 300px;
             }
 
-            .articles {
-                grid-template-columns: 1fr;
-            }
-
-            article.featured {
-                grid-row: auto;
-            }
-
-            article.featured h3 {
-                font-size: 40px;
-            }
-
         }
 
     </style>
+
 </head>
 
 
 <body>
 
+
 <header>
 
     <div class="logo">
-        La Nación<br>en Marcha
+        La Nación<br>
+        en Marcha
     </div>
+
 
     <nav>
 
-<a href="articulos.html">Artículos</a>
+        <a href="index.html">Inicio</a>
+        <a href="articulos.html">Artículos</a>
+        <a href="ensayos.html">Ensayos</a>
+        <a href="temas.html">Temas</a>
+        <a href="proyecto.html">Proyecto</a>
+        <a href="contacto.html">Contacto</a>
+        <a href="admin.html">Administración</a>
 
-<a href="ensayos.html">Ensayos</a>
-
-<a href="temas.html">Temas</a>
-
-<a href="proyecto.html">Proyecto</a>
-
-<a href="contacto.html">Contacto</a>
-
-<a href="admin.html">Administración</a>
-
-</nav>
+    </nav>
 
 </header>
 
 
 <main>
+
 
     <section class="hero">
 
@@ -333,12 +282,14 @@
                 Publicación política
             </div>
 
+
             <h1>
                 La<br>
                 Nación<br>
                 en<br>
                 Marcha
             </h1>
+
 
             <div class="hero-description">
                 Artículos, ensayos y análisis sobre política,
@@ -381,73 +332,11 @@
         </div>
 
 
-        <div class="articles">
+        <div class="empty">
 
-
-            <article class="featured">
-
-                <div class="category">
-                    Ensayo
-                </div>
-
-                <h3>
-                    El título de nuestro primer gran ensayo
-                </h3>
-
-                <p>
-                    Aquí aparecerá la entradilla del artículo.
-                    Un texto breve que presente al lector el
-                    argumento principal del ensayo.
-                </p>
-
-                <div class="date">
-                    Nombre del autor · 17 agosto 2026
-                </div>
-
-            </article>
-
-
-            <article>
-
-                <div class="category">
-                    Política
-                </div>
-
-                <h3>
-                    Un segundo artículo
-                </h3>
-
-                <p>
-                    Una breve descripción del texto publicado.
-                </p>
-
-                <div class="date">
-                    Nombre del autor · 15 agosto 2026
-                </div>
-
-            </article>
-
-
-            <article>
-
-                <div class="category">
-                    Sociedad
-                </div>
-
-                <h3>
-                    Un tercer artículo
-                </h3>
-
-                <p>
-                    Una breve descripción del texto publicado.
-                </p>
-
-                <div class="date">
-                    Nombre del autor · 12 agosto 2026
-                </div>
-
-            </article>
-
+            Todavía no hay publicaciones.
+            Los próximos artículos y ensayos
+            aparecerán aquí.
 
         </div>
 
@@ -477,3 +366,4 @@
 </body>
 
 </html>
+```
